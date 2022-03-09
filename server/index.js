@@ -1,9 +1,6 @@
 require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-
-const app = express();
-const PORT = process.env.PORT;
+const app = require('./app');
+const PORT = process.env.PORT || 3000;
 const launch = async () => {
   try {
     app.listen(PORT, () => {
