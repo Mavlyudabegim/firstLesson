@@ -24,14 +24,14 @@ const income_edit = (req, res) => {
 };
 const income_remove = (req, res) => {
   try {
-    res.send(incomeService.deleteIncome(req.params.id));
+    return res.send(incomeService.deleteIncome(req.params.id));
   } catch (error) {
     res.send(error);
   }
 };
 const incomes_details = (req, res) => {
   try {
-    res.status(200).send(incomeService.getAllIncomes());
+    return res.status(200).send(incomeService.getAllIncomes());
   } catch (error) {
     res.send(error);
   }

@@ -18,7 +18,7 @@ const account_create = (req, res) => {
 };
 const accounts_details = (req, res) => {
   try {
-    res.status(200).send(accountService.getAllAccounts());
+    return res.status(200).send(accountService.getAllAccounts());
   } catch (error) {
     res.send(error);
   }

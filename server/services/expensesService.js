@@ -3,6 +3,9 @@ const getOneExpense = (id) => {
   const expense = expenses[id];
   return expense;
 };
+const getAllExpenses = () => {
+  return expenses;
+};
 const createExpense = (expense) => {
   expenses[expense.id] = expense;
   return expense;
@@ -20,4 +23,5 @@ module.exports = {
   createExpense,
   updateExpence,
   deleteOneExpence,
+  getAllExpenses,
 };

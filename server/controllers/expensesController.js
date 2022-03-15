@@ -1,8 +1,15 @@
 const expensesService = require('../services/expensesService');
-const expenses_details = (req, res) => {
+const expense_details = (req, res) => {
   try {
     const expense = expensesService.getOneExpense(req.params.id);
     return res.send(expense);
+  } catch (error) {
+    res.send(error);
+  }
+};
+const expenses_details = (req, res) => {
+  try {
+    return res.status(200).send(expensesService.getAllExpenses());
   } catch (error) {
     res.send(error);
   }
@@ -31,8 +38,9 @@ const expenses_remove = (req, res) => {
   }
 };
 module.exports = {
-  expenses_details,
+  expense_details,
   expenses_create,
   expenses_edit,
   expenses_remove,
+  expenses_details,
 };

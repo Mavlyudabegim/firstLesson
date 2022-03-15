@@ -3,7 +3,7 @@ const accountRouter = require('./routes/account');
 const incomeRouter = require('./routes/income');
 const expenseRouter = require('./routes/expenses');
 const app = express();
-app.use('/accounts', accountRouter);
+app.use('/account', accountRouter);
 app.use('/income', incomeRouter);
 app.use('/expenses', expenseRouter);
 app.use(express.json());
