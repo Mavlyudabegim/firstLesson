@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const incomeSchema = new mongoose.Schema(
+const expenseSchema = new mongoose.Schema(
   {
     incomeTitle: {
       account: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Account' }],
@@ -7,7 +7,7 @@ const incomeSchema = new mongoose.Schema(
       required: true,
       min: 10,
       max: 150,
-      default: 'Title of your income',
+      default: 'Title of your expense',
     },
     category: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }],
     incomeAmount: { type: Number, required: true, default: 0 },
@@ -16,4 +16,4 @@ const incomeSchema = new mongoose.Schema(
   },
   { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
 );
-module.exports = mongoose.model('Income', incomeSchema);
+module.exports = mongoose.model('Expense', expenseSchema);
