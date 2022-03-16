@@ -1,23 +1,23 @@
-const income = require('../data/incomeData');
-const getOneIncome = (id) => {
-  const incomeVal = income[id];
+const Income = require('../models/incomes');
+async function getOneIncome(id) {
+  const incomeVal = await Income.findById(id);
   return incomeVal;
-};
-const createIncome = (newIncome) => {
-  income[income.accountId] = newIncome;
-  return newIncome;
-};
-const updateIncome = (id, updatedIncome) => {
-  income[id] = updatedIncome;
-  return updatedIncome;
-};
-const deleteIncome = (id) => {
-  delete income[id];
-  return 'Income has been removed';
-};
-const getAllIncomes = () => {
+}
+async function createIncome(newIncome) {
+  const income = await Income.create(newIncome);
   return income;
-};
+}
+async function updateIncome(id, updatedIncome) {
+  const newIncome = await Income.findByIdAndUpdate(id, updatedIncome);
+  return newIncome;
+}
+async function deleteIncome(id) {
+  const deletedIncome = await Income.findOneAndDelete(id);
+  return deletedIncome;
+}
+async function getAllIncomes() {
+  return await Income.find();
+}
 
 module.exports = {
   getAllIncomes,

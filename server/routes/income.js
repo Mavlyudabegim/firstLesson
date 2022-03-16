@@ -12,6 +12,6 @@ router.get('/', incomeController.incomes_details);
 // Edit income
 router.put('/:id', jsonParser, incomeController.income_edit);
 // Delete an income
-router.delete(':id', incomeController.income_remove);
+router.delete('/:id', incomeController.income_remove);
 
 module.exports = router;

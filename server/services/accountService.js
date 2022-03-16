@@ -1,25 +1,24 @@
-const accounts = require('../data/accountData');
-const getOneAccount = (id) => {
-  const account = accounts[id];
+const Account = require('../models/accounts');
+async function getOneAccount(id) {
+  const account = await Account.findById(id);
   return account;
-};
-const createAccount = (account) => {
-  const user = account;
-  accounts[account.id] = user;
+}
+async function createAccount(account) {
+  const user = await Account.create(account);
   return user;
-};
-const getAllAccounts = () => {
+}
+async function getAllAccounts() {
+  const accounts = await Account.find();
   return accounts;
-};
-const updateAccount = (updatedAccount, id) => {
-  const newUser = updatedAccount;
-  accounts[id] = newUser;
+}
+async function updateAccount(updatedAccount, id) {
+  const newUser = await Account.findByIdAndUpdate(updatedAccount, id);
   return newUser;
-};
-const removeOneAccount = (id) => {
-  delete accounts[id];
-  return 'Account has been removed';
-};
+}
+async function removeOneAccount(id) {
+  const deleted_account = Account.findByIdAndDelete(id);
+  return deleted_account;
+}
 module.exports = {
   getAllAccounts,
   getOneAccount,

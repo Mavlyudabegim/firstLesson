@@ -1,41 +1,41 @@
 const incomeService = require('../services/incomeService');
-const income_details = (req, res) => {
+async function income_details(req, res) {
   try {
-    const incomeVal = incomeService.getOneIncome(req.params.id);
-    return res.send(incomeVal);
+    const incomeVal = await incomeService.getOneIncome(req.params.id);
+    return res.json(incomeVal);
   } catch (error) {
-    res.send(error);
+    res.json(error);
   }
-};
-const income_create = (req, res) => {
+}
+async function income_create(req, res) {
   try {
-    return res.status(201).send(incomeService.createIncome(req.body));
+    return res.status(201).json(await incomeService.createIncome(req.body));
   } catch (error) {
-    res.send(error);
+    res.json(error);
   }
-};
-const income_edit = (req, res) => {
+}
+async function income_edit(req, res) {
   try {
-    const newIncome = incomeService.updateIncome(req.params.id, req.body);
-    return res.send(newIncome);
+    const newIncome = await incomeService.updateIncome(req.params.id, req.body);
+    return res.json(newIncome);
   } catch (error) {
-    res.send(error);
+    res.json(error);
   }
-};
-const income_remove = (req, res) => {
+}
+async function income_remove(req, res) {
   try {
-    return res.send(incomeService.deleteIncome(req.params.id));
+    return res.json(await incomeService.deleteIncome(req.params.id));
   } catch (error) {
-    res.send(error);
+    res.json(error);
   }
-};
-const incomes_details = (req, res) => {
+}
+async function incomes_details(req, res) {
   try {
-    return res.status(200).send(incomeService.getAllIncomes());
+    return res.status(200).json(await incomeService.getAllIncomes());
   } catch (error) {
-    res.send(error);
+    res.json(error);
   }
-};
+}
 
 module.exports = {
   income_create,

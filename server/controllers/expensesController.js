@@ -1,42 +1,45 @@
 const expensesService = require('../services/expensesService');
-const expense_details = (req, res) => {
+async function expense_details(req, res) {
   try {
-    const expense = expensesService.getOneExpense(req.params.id);
-    return res.send(expense);
+    const expense = await expensesService.getOneExpense(req.params.id);
+    return res.json(expense);
   } catch (error) {
-    res.send(error);
+    res.json(error);
   }
-};
-const expenses_details = (req, res) => {
+}
+async function expenses_details(req, res) {
   try {
-    return res.status(200).send(expensesService.getAllExpenses());
+    return res.status(200).json(await expensesService.getAllExpenses());
   } catch (error) {
-    res.send(error);
+    res.json(error);
   }
-};
-const expenses_create = (req, res) => {
+}
+async function expenses_create(req, res) {
   try {
-    const expense = expensesService.createExpense(req.body);
-    return res.status(201).send(expense);
+    const expense = await expensesService.createExpense(req.body);
+    return res.status(201).json(expense);
   } catch (error) {
-    res.send(error);
+    res.json(error);
   }
-};
-const expenses_edit = (req, res) => {
+}
+async function expenses_edit(req, res) {
   try {
-    const newExpense = expensesService.updateExpence(req.params.id, req.body);
-    return res.send(newExpense);
+    const newExpense = await expensesService.updateExpence(
+      req.params.id,
+      req.body
+    );
+    return res.json(newExpense);
   } catch (error) {
-    res.send(error);
+    res.json(error);
   }
-};
-const expenses_remove = (req, res) => {
+}
+async function expenses_remove(req, res) {
   try {
-    return res.send(expensesService.deleteOneExpence(req.params.id));
+    return res.json(await expensesService.deleteOneExpence(req.params.id));
   } catch (error) {
-    res.send(error);
+    res.json(error);
   }
-};
+}
 module.exports = {
   expense_details,
   expenses_create,
