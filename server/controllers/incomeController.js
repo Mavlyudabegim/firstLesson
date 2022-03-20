@@ -1,41 +1,51 @@
 const incomeService = require('../services/incomeService');
-const income_details = (req, res) => {
+async function income_details(req, res) {
   try {
-    const incomeVal = incomeService.getOneIncome(req.params.id);
-    return res.send(incomeVal);
+    const incomeVal = await incomeService.getOneIncome(req.params.id);
+    return res.status(200).json(incomeVal);
   } catch (error) {
-    res.send(error);
+    res.status(500).json(error);
   }
-};
-const income_create = (req, res) => {
+}
+async function income_create(req, res) {
   try {
-    return res.status(201).send(incomeService.createIncome(req.body));
+    const new_income = await incomeService.createIncome(
+      req.params.accountId,
+      req.body,
+      req.userId
+    );
+    return res.status(201).json(new_income);
   } catch (error) {
-    res.send(error);
+    res.status(500).json(error);
   }
-};
-const income_edit = (req, res) => {
+}
+async function income_edit(req, res) {
   try {
-    const newIncome = incomeService.updateIncome(req.params.id, req.body);
-    return res.send(newIncome);
+    const new_income = await incomeService.updateIncome(
+      req.params.id,
+      req.body
+    );
+    return res.status(200).json(new_income);
   } catch (error) {
-    res.send(error);
+    res.status(500).json(error);
   }
-};
-const income_remove = (req, res) => {
+}
+async function income_remove(req, res) {
   try {
-    res.send(incomeService.deleteIncome(req.params.id));
+    const deleted_income = await incomeService.deleteIncome(req.params.id);
+    return res.status(204).json(deleted_income);
   } catch (error) {
-    res.send(error);
+    res.status(500).json(error);
   }
-};
-const incomes_details = (req, res) => {
+}
+async function incomes_details(req, res) {
   try {
-    res.status(200).send(incomeService.getAllIncomes());
+    const incomes = await incomeService.getAllIncomes(req.params.accountId);
+    return res.status(200).json(incomes);
   } catch (error) {
-    res.send(error);
+    res.status(500).json(error);
   }
-};
+}
 
 module.exports = {
   income_create,

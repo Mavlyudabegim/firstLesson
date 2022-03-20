@@ -6,9 +6,9 @@ const incomeController = require('../controllers/incomeController');
 // Read income
 router.get('/:id', incomeController.income_details);
 // Create income
-router.post('/new-income', jsonParser, incomeController.income_create);
+router.post('/:accountId', jsonParser, incomeController.income_create);
 // Get all income
-router.get('/', incomeController.incomes_details);
+router.get('/:accountId', jsonParser, incomeController.incomes_details);
 // Edit income
 router.put('/:id', jsonParser, incomeController.income_edit);
 // Delete an income
