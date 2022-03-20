@@ -1,7 +1,14 @@
 const mongoose = require('mongoose');
 const incomeSchema = new mongoose.Schema(
   {
-    accountId: { type: mongoose.Schema.Types.ObjectId, ref: 'Account' },
+    accountId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Account',
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
     incomeTitle: {
       type: String,
       required: true,
@@ -9,9 +16,9 @@ const incomeSchema = new mongoose.Schema(
       max: 150,
       default: 'Title of your income',
     },
-    categoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
+    category: { type: String },
     incomeAmount: { type: Number, required: true, default: 0 },
-    currencyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Currency' },
+    currency: { type: String },
     comments: { type: String, maxlength: 250 },
   },
   { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }

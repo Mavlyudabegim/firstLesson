@@ -6,9 +6,9 @@ const jsonParser = bodyParser.json();
 // Read expense
 router.get('/:id', expensesController.expense_details);
 // Read all expenses
-router.get('/', expensesController.expenses_details);
+router.get('/:accountId', expensesController.expenses_details);
 // Create expense
-router.post('/new-expense', jsonParser, expensesController.expenses_create);
+router.post('/:accountId', jsonParser, expensesController.expenses_create);
 // Edit expense
 router.put('/:id', jsonParser, expensesController.expenses_edit);
 // Delete expense

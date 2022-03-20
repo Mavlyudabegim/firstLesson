@@ -2,24 +2,25 @@ const categoryService = require('../services/categoryService');
 async function category_details(req, res) {
   try {
     const category = await categoryService.getOneCategory(req.params.id);
-    return res.json(category);
+    return res.status(200).json(category);
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 }
 async function categories_details(req, res) {
   try {
-    return res.status(200).json(await categoryService.getAllCategories());
+    const categories = await categoryService.getAllCategories(req.userId);
+    return res.status(200).json(categories);
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 }
 async function category_create(req, res) {
   try {
-    const category = await categoryService.createCategory(req.body);
+    const category = await categoryService.createCategory(req.userId, req.body);
     return res.status(201).json(category);
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 }
 async function category_edit(req, res) {
@@ -28,16 +29,19 @@ async function category_edit(req, res) {
       req.params.id,
       req.body
     );
-    return res.json(new_category);
+    return res.status(200).json(new_category);
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 }
 async function category_remove(req, res) {
   try {
-    return res.json(await categoryService.deleteOneCategory(req.params.id));
+    const deleted_category = await categoryService.deleteOneCategory(
+      req.params.id
+    );
+    return res.status(204).json(deleted_category);
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 }
 module.exports = {

@@ -2,38 +2,48 @@ const incomeService = require('../services/incomeService');
 async function income_details(req, res) {
   try {
     const incomeVal = await incomeService.getOneIncome(req.params.id);
-    return res.json(incomeVal);
+    return res.status(200).json(incomeVal);
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 }
 async function income_create(req, res) {
   try {
-    return res.status(201).json(await incomeService.createIncome(req.body));
+    const new_income = await incomeService.createIncome(
+      req.params.accountId,
+      req.body,
+      req.userId
+    );
+    return res.status(201).json(new_income);
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 }
 async function income_edit(req, res) {
   try {
-    const newIncome = await incomeService.updateIncome(req.params.id, req.body);
-    return res.json(newIncome);
+    const new_income = await incomeService.updateIncome(
+      req.params.id,
+      req.body
+    );
+    return res.status(200).json(new_income);
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 }
 async function income_remove(req, res) {
   try {
-    return res.json(await incomeService.deleteIncome(req.params.id));
+    const deleted_income = await incomeService.deleteIncome(req.params.id);
+    return res.status(204).json(deleted_income);
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 }
 async function incomes_details(req, res) {
   try {
-    return res.status(200).json(await incomeService.getAllIncomes());
+    const incomes = await incomeService.getAllIncomes(req.params.accountId);
+    return res.status(200).json(incomes);
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 }
 

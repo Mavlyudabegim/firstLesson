@@ -2,24 +2,29 @@ const expensesService = require('../services/expensesService');
 async function expense_details(req, res) {
   try {
     const expense = await expensesService.getOneExpense(req.params.id);
-    return res.json(expense);
+    return res.status(200).json(expense);
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 }
 async function expenses_details(req, res) {
   try {
-    return res.status(200).json(await expensesService.getAllExpenses());
+    const expenses = await expensesService.getAllExpenses(req.params.accountId);
+    return res.status(200).json(expenses);
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 }
 async function expenses_create(req, res) {
   try {
-    const expense = await expensesService.createExpense(req.body);
+    const expense = await expensesService.createExpense(
+      req.params.accountId,
+      req.body,
+      req.userId
+    );
     return res.status(201).json(expense);
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 }
 async function expenses_edit(req, res) {
@@ -28,16 +33,19 @@ async function expenses_edit(req, res) {
       req.params.id,
       req.body
     );
-    return res.json(newExpense);
+    return res.status(200).json(newExpense);
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 }
 async function expenses_remove(req, res) {
   try {
-    return res.json(await expensesService.deleteOneExpence(req.params.id));
+    const deleted_expense = await expensesService.deleteOneExpence(
+      req.params.id
+    );
+    return res.status(204).json(deleted_expense);
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 }
 module.exports = {

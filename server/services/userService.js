@@ -16,7 +16,7 @@ async function updateUser(updatedUser, id) {
   return newUser;
 }
 async function removeOneUser(id) {
-  const deleted_user = User.findByIdAndDelete(id);
+  const deleted_user = await User.findByIdAndDelete(id);
   return deleted_user;
 }
 module.exports = {

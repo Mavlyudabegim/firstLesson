@@ -3,11 +3,12 @@ async function getOneCategory(id) {
   const category = await Category.findById(id);
   return category;
 }
-async function getAllCategories() {
-  return await Category.find();
+async function getAllCategories(userId) {
+  const categories = await Category.find({ userId });
+  return categories;
 }
-async function createCategory(expense) {
-  const new_category = await Category.create(expense);
+async function createCategory(userId, category) {
+  const new_category = await Category.create({ ...category, userId });
   return new_category;
 }
 async function updateCategory(id, updatedCategory) {

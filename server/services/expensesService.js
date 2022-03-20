@@ -3,12 +3,14 @@ async function getOneExpense(id) {
   const expense = await Expenses.findById(id);
   return expense;
 }
-async function getAllExpenses() {
-  return await Expenses.find();
+async function getAllExpenses(accountId) {
+  const expenses = await Expenses.find({ accountId });
+  return expenses;
 }
-async function createExpense(expense) {
-  const new_expense = await Expenses.create(expense);
-  return new_expense;
+async function createExpense(accountId, newExpense, userId) {
+  const expense_data = { ...newExpense, accountId, userId };
+  const expense = await Expenses.create(expense_data);
+  return expense;
 }
 async function updateExpence(id, updatedExpence) {
   const updated_expense = await Expenses.findByIdAndUpdate(id, updatedExpence);
