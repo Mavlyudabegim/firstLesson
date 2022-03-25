@@ -1,7 +1,12 @@
 require('dotenv').config();
 const app = require('./index');
+const cors = require('cors');
 const mongoose = require('mongoose');
-const mongoURl = `mongodb+srv://mekhrullaeva1999:Adulvam28.07@cluster0.zeoe1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const express = require('express');
+const mongoURl = `mongodb+srv://${process.env.MONGODB_LOGIN}:${process.env.MONGODB_PASSWORD}@cluster0.zeoe1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const PORT = process.env.PORT || 5000;
+app.use(express.json());
+app.use(cors());
 
 async function startApp() {
   try {
@@ -9,8 +14,8 @@ async function startApp() {
       useUnifiedTopology: true,
       useNewUrlParser: true,
     });
-    app.listen(3000, () => {
-      console.log('PORT ', 3000);
+    app.listen(PORT, () => {
+      console.log('PORT ', PORT);
     });
   } catch (error) {
     console.log(error);

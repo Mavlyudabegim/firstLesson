@@ -1,48 +1,83 @@
 const userService = require('../services/userService');
-async function user_details(req, res) {
+const { validationResult } = require('express-validator');
+const ApiError = require('../exceptions/api-error');
+async function registration(req, res, next) {
   try {
-    const user = await userService.getOneUser(req.params.id);
-    return res.status(200).json(user);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return next(ApiError.BadRequest('Validation error', errors.array()));
+    }
+    const userData = await userService.registration(
+      req.body.email,
+      req.body.password
+    );
+    res.cookie('refreshToken', userData.refreshToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    });
+    return res.status(200).json(userData);
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 }
-async function user_create(req, res) {
+async function login(req, res, next) {
   try {
-    const user = await userService.createUser(req.body);
-    return res.status(201).json(user);
+    const userData = await userService.login(req.body.email, req.body.password);
+    res.cookie('refreshToken', userData.refreshToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    });
+    return res.status(200).json(userData);
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 }
-async function users_details(req, res) {
+async function logout(req, res, next) {
+  try {
+    const { refreshToken } = req.cookies;
+    const token = await userService.logout(refreshToken);
+    res.clearCookie('refreshToken');
+    return res.status(200).json(token);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function refresh(req, res, next) {
+  try {
+    const { refreshToken } = req.cookies;
+    const userData = await userService.refresh(refreshToken);
+    res.cookie('refreshToken', userData.refreshToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    });
+    return res.status(200).json(userData);
+  } catch (error) {
+    next(error);
+  }
+}
+async function getUsers(req, res, next) {
   try {
     const users = await userService.getAllUsers();
     return res.status(200).json(users);
   } catch (error) {
-    res.status(400).json(error);
+    next(error);
   }
 }
-async function user_edit(req, res) {
+async function activate(req, res, next) {
   try {
-    const newUser = await userService.updateUser(req.body, req.params.id);
-    return res.status(200).json(newUser);
+    const activationLink = req.params.link;
+    await userService.activate(activationLink);
+    return res.redirect(process.env.CLIENT_URL);
   } catch (error) {
-    res.status(500).json(error);
-  }
-}
-async function user_delete(req, res) {
-  try {
-    const removed_user = await userService.removeOneUser(req.params.id);
-    return res.status(204).json(removed_user);
-  } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 }
 module.exports = {
-  user_details,
-  user_create,
-  users_details,
-  user_edit,
-  user_delete,
+  registration,
+  login,
+  refresh,
+  getUsers,
+  logout,
+  activate,
 };

@@ -1,74 +1,71 @@
 const accountService = require('../services/accountService');
-async function account_details(req, res) {
+async function account_details(req, res, next) {
   try {
-    const account = await accountService.getOneAccount(req.params.id);
+    const account = await accountService.getOneAccount(req.params.accountId);
     return res.status(200).json(account);
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 }
-async function account_create(req, res) {
+async function account_create(req, res, next) {
   try {
-    const account = await accountService.createAccount(req.body, req.userId);
+    const account = await accountService.createAccount(
+      req.body,
+      req.params.userId
+    );
+
     return res.status(201).json(account);
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 }
-async function accounts_details(req, res) {
+async function accounts_details(req, res, next) {
   try {
-    const accounts = await accountService.getAllAccounts(req.userId);
+    const accounts = await accountService.getAllAccounts(req.params.userId);
     return res.status(200).send(accounts);
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 }
-async function account_edit(req, res) {
+async function account_edit(req, res, next) {
   try {
     const newAccount = await accountService.updateAccount(
-      req.params.id,
+      req.params.accountId,
       req.body
     );
     return res.status(200).json(newAccount);
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 }
-async function account_delete(req, res) {
+async function account_delete(req, res, next) {
   try {
     const deleted_account = await accountService.removeOneAccount(
-      req.params.id
+      req.params.accountId
     );
     return res.status(204).json(deleted_account);
-  } catch (er) {
-    res.status(500).json(error);
+  } catch (error) {
+    next(error);
   }
 }
-async function account_incomes(req, res) {
+async function account_incomes(req, res, next) {
   try {
-    const incomes = await accountService.incomesByAccount(req.params.id);
+    const incomes = await accountService.incomesByAccount(req.params.accountId);
     res.status(200).json(incomes.incomes);
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 }
 
-const getIncomeSum = async (req, res) => {
+const getBalance = async (req, res, next) => {
   try {
-    const sum = await accountService.calculateIncomeSum(req.params.id);
-    res.status(200).json({ sum });
+    const sum = await accountService.calculateBalance(req.params.accountId);
+    return res.status(200).json({ sum });
   } catch (error) {
-    res.status(500).json(err);
+    next(error);
   }
 };
-const getExpenseSum = async (req, res) => {
-  try {
-    const sum = await accountService.calculateExpenseSum(req.params.id);
-    res.status(200).json({ sum });
-  } catch (error) {
-    res.status(500).json(err);
-  }
-};
+
 module.exports = {
   account_details,
   account_create,
@@ -76,6 +73,5 @@ module.exports = {
   account_edit,
   account_delete,
   account_incomes,
-  getIncomeSum,
-  getExpenseSum,
+  getBalance,
 };

@@ -1,14 +1,19 @@
 const supertest = require('supertest');
 const app = require('./index');
 const mongoose = require('mongoose');
-const Account = require('./models/accounts');
-const oneAccountId = '623104c603ce9d2a1e4bb86b';
 
-describe('account', () => {
+const Account = require('./models/accounts');
+
+const singleAccountId = '623de11d261c049f0827ee66';
+const userId = '623de0dd261c049f0827ee59';
+let updateAccountId;
+let deleteAccountId;
+
+describe('account routes', () => {
   beforeAll(async () => {
     await mongoose.disconnect();
     await mongoose.connect(
-      'mongodb+srv://mekhrullaeva1999:Adulvam28.07@cluster0.zeoe1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+      `mongodb+srv://${process.env.MONGODB_LOGIN}:${process.env.MONGODB_PASSWORD}@cluster0.zeoe1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
     );
   });
 
@@ -17,65 +22,71 @@ describe('account', () => {
   });
 
   describe('GET all accounts', () => {
-    it('should return accounts', async () => {
-      const response = await supertest(app).get('/accounts');
+    it('should return array of accounts', async () => {
+      const response = await supertest(app).get(
+        `/api/accounts/${userId}/user-accounts`
+      );
+
       expect(response.status).toBe(200);
       expect(response.type).toBe('application/json');
       expect(response.body).toEqual(
         expect.arrayContaining([
-          expect.objectContaining({ name: expect.any(String) }),
+          expect.objectContaining({ title: expect.any(String) }),
         ])
       );
     });
   });
 
-  describe('create account', () => {
+  describe('POST create account', () => {
     beforeAll(async () => {
-      await Account.deleteOne({ name: 'account create test' });
+      await Account.deleteOne({ title: 'create test' });
     });
 
     it('should create new account', async () => {
-      const response = await supertest(app).post('/accounts').send({
-        name: 'account create test',
-        description: 'account create test',
-      });
+      const response = await supertest(app)
+        .post(`/api/accounts/${userId}`)
+        .send({ title: 'create test', description: 'create test' });
 
       expect(response.status).toBe(201);
       expect(response.type).toBe('application/json');
       expect(response.body).toEqual(
         expect.objectContaining({
-          title: 'account create test',
-          description: 'account create test',
+          title: 'create test',
+          description: 'create test',
         })
       );
     });
   });
 
-  describe('POST account error', () => {
+  describe('POST create account ERROR', () => {
     it('should return error', async () => {
-      const response = await supertest(app).post('/accounts').send();
+      const response = await supertest(app)
+        .post(`/api/accounts/${userId}`)
+        .send();
 
       expect(response.status).toBe(500);
     });
   });
 
-  describe('GET one account', () => {
-    it('should return an account', async () => {
-      const response = await supertest(app).get(`/accounts/${accountId}`);
+  describe('GET single account', () => {
+    it('should return single account', async () => {
+      const response = await supertest(app).get(
+        `/api/accounts/${singleAccountId}`
+      );
 
       expect(response.status).toBe(200);
       expect(response.type).toBe('application/json');
       expect(response.body).toEqual(
         expect.objectContaining({
-          name: 'a single test',
+          title: 'get single test',
         })
       );
     });
   });
 
-  describe('GET an account ERROR', () => {
+  describe('GET single account ERROR', () => {
     it('should return error', async () => {
-      const response = await supertest(app).get(`/accounts/4`);
+      const response = await supertest(app).get(`/api/accounts/11`);
 
       expect(response.status).toBe(500);
     });
@@ -83,35 +94,35 @@ describe('account', () => {
 
   describe('PUT update account', () => {
     beforeAll(async () => {
-      await Account.create({ name: 'update test' });
-      const account = await Account.findOne({ name: 'update test' });
-      accountId = account._id;
+      await Account.create({ title: 'update test' });
+      const account = await Account.findOne({ title: 'update test' });
+      updateAccountId = account._id;
     });
 
     afterAll(async () => {
-      await Account.deleteOne({ name: 'account updated' });
+      await Account.deleteOne({ title: 'updated' });
     });
 
-    it('should update account and return updated one', async () => {
+    it('should update existing account and return new', async () => {
       const response = await supertest(app)
-        .patch(`/accounts/${accountId}`)
-        .send({ name: 'account updated' });
+        .put(`/api/accounts/${updateAccountId}`)
+        .send({ title: 'updated' });
 
       expect(response.status).toBe(200);
       expect(response.type).toBe('application/json');
       expect(response.body).toEqual(
         expect.objectContaining({
-          name: 'account updated',
+          title: 'updated',
         })
       );
     });
   });
 
-  describe('PUT  account error', () => {
+  describe('PUT update account ERROR', () => {
     it('should return error', async () => {
       const response = await supertest(app)
-        .patch(`/accounts/100`)
-        .send({ name: 'updated' });
+        .put(`/api/accounts/11`)
+        .send({ title: 'updated' });
 
       expect(response.status).toBe(500);
     });
@@ -119,29 +130,31 @@ describe('account', () => {
 
   describe('DELETE account', () => {
     beforeAll(async () => {
-      const account = await Account.create({ name: 'delete account test' });
-      accountId = account._id;
+      const account = await Account.create({ title: 'delete test' });
+      deleteAccountId = account._id;
     });
 
     it('should delete account', async () => {
-      const response = await supertest(app).delete(`/accounts/${accountId}`);
+      const response = await supertest(app).delete(
+        `/api/accounts/${deleteAccountId}`
+      );
 
       expect(response.status).toBe(204);
     });
   });
 
-  describe('DELETE account error', () => {
+  describe('DELETE account ERROR', () => {
     it('should return error', async () => {
-      const response = await supertest(app).delete(`/accounts/100`);
+      const response = await supertest(app).delete(`/api/accounts/11`);
 
       expect(response.status).toBe(500);
     });
   });
 
-  describe('GET sum of account incomes', () => {
-    it('should return incomes sum number', async () => {
+  describe('GET sum of account transaction', () => {
+    it('should return sum number', async () => {
       const response = await supertest(app).get(
-        `/accounts/${oneAccountId}/incomes-sum`
+        `/api/accounts/${singleAccountId}/balance`
       );
 
       expect(response.status).toBe(200);
