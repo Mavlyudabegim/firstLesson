@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 const categorySchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true },
-  userId: {
-    type: mongoose.Types.ObjectId,
-    ref: 'User',
-  },
+  title: { type: String, required: true, unique: true },
+  type: { type: String, enum: ['Expense', 'Income'], default: 'Expense' },
 });
 module.exports = mongoose.model('Category', categorySchema);

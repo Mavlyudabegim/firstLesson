@@ -2,12 +2,13 @@ const supertest = require('supertest');
 const app = require('./index');
 const mongoose = require('mongoose');
 const Category = require('./models/category');
-
+let categoryId;
+let deleteCategoryId;
 describe('category routes', () => {
   beforeAll(async () => {
     await mongoose.disconnect();
     await mongoose.connect(
-      'mongodb+srv://mekhrullaeva1999:Adulvam28.07@cluster0.zeoe1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+      `mongodb+srv://${process.env.MONGODB_LOGIN}:${process.env.MONGODB_PASSWORD}@cluster0.zeoe1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
     );
   });
 
@@ -17,7 +18,7 @@ describe('category routes', () => {
 
   describe('GET all categories', () => {
     it('should return category array', async () => {
-      const response = await supertest(app).get('/category');
+      const response = await supertest(app).get('/api/categories');
 
       expect(response.status).toBe(200);
       expect(response.type).toBe('application/json');
@@ -27,19 +28,19 @@ describe('category routes', () => {
 
   describe('POST category', () => {
     beforeAll(async () => {
-      await Category.deleteOne({ name: 'create category test' });
+      await Category.deleteOne({ title: 'create category test' });
     });
 
     it('should create new category', async () => {
       const response = await supertest(app)
-        .post('/category')
-        .send({ name: 'create category test' });
+        .post('/api/categories')
+        .send({ title: 'create category test' });
 
       expect(response.status).toBe(201);
       expect(response.type).toBe('application/json');
       expect(response.body).toEqual(
         expect.objectContaining({
-          name: 'create category test',
+          title: 'create category test',
         })
       );
     });
@@ -48,7 +49,7 @@ describe('category routes', () => {
   describe('POST category error', () => {
     it('should return error', async () => {
       const response = await supertest(app)
-        .post('/category')
+        .post('/api/categories')
         .send({ name: 'something', sum: 200 });
 
       expect(response.status).toBe(500);
@@ -57,7 +58,7 @@ describe('category routes', () => {
 
   describe('PUT  cateogry', () => {
     beforeAll(async () => {
-      await Category.create({ name: 'update category test' });
+      await Category.create({ title: 'update category test' });
       const category = await Category.findOne({
         title: 'update category test',
       });
@@ -65,19 +66,19 @@ describe('category routes', () => {
     });
 
     afterAll(async () => {
-      await Category.deleteOne({ name: 'updated category' });
+      await Category.deleteOne({ title: 'updated category' });
     });
 
     it('should update category and return updated one', async () => {
       const response = await supertest(app)
-        .put(`/category/${categoryId}`)
-        .send({ name: 'updated category' });
+        .put(`/api/categories/${categoryId}`)
+        .send({ title: 'updated category' });
 
       expect(response.status).toBe(200);
       expect(response.type).toBe('application/json');
       expect(response.body).toEqual(
         expect.objectContaining({
-          name: 'updated category',
+          title: 'updated category',
         })
       );
     });
@@ -86,8 +87,8 @@ describe('category routes', () => {
   describe('PUT cateogry ERROR', () => {
     it('should return error', async () => {
       const response = await supertest(app)
-        .patch(`/category/100`)
-        .send({ name: 'updated category' });
+        .put(`/api/categories/100`)
+        .send({ title: 'updated category' });
 
       expect(response.status).toBe(500);
     });
@@ -96,7 +97,7 @@ describe('category routes', () => {
   describe('DELETE category', () => {
     beforeAll(async () => {
       const category = await Category.create({
-        name: 'delete category test',
+        title: 'delete category test',
       });
       deleteCategoryId = category._id;
     });
@@ -112,7 +113,7 @@ describe('category routes', () => {
 
   describe('DELETE category error', () => {
     it('should return error', async () => {
-      const response = await supertest(app).delete(`/category/100`);
+      const response = await supertest(app).delete(`/api/categories/100`);
 
       expect(response.status).toBe(500);
     });
