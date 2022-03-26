@@ -15,6 +15,6 @@ router.put('/:accountId', jsonParser, accountController.account_edit);
 // Delete an account
 router.delete('/:accountId', accountController.account_delete);
 // Get balance
-router.get('/:accountId/balance', accountController.getBalance);
+// router.get('/:accountId/balance', accountController.getBalance);
 
 module.exports = router;

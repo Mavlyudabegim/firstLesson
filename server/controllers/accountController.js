@@ -57,15 +57,6 @@ async function account_incomes(req, res, next) {
   }
 }
 
-const getBalance = async (req, res, next) => {
-  try {
-    const sum = await accountService.calculateBalance(req.params.accountId);
-    return res.status(200).json({ sum });
-  } catch (error) {
-    next(error);
-  }
-};
-
 module.exports = {
   account_details,
   account_create,
@@ -73,5 +64,4 @@ module.exports = {
   account_edit,
   account_delete,
   account_incomes,
-  getBalance,
 };
