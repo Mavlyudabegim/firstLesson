@@ -1,13 +1,14 @@
 const Account = require('../models/accounts');
 const Transaction = require('../models/transaction');
 const Subscription = require('../models/subscription');
+const Piggybank = require('../models/piggybank');
 const User = require('../models/users');
 const ApiError = require('../exceptions/api-error');
 async function getOneAccount(id) {
   const account = await Account.findById(id);
   return account;
 }
-async function createAccount(account, userId, categoryId) {
+async function createAccount(account, userId) {
   const user = await User.findById(userId);
   if (!user) {
     throw ApiError.BadRequest('User was not found');
@@ -29,37 +30,13 @@ async function removeOneAccount(accountId) {
   const deleted_account = await Account.findByIdAndDelete(accountId);
   await Transaction.deleteMany({ accountId });
   await Subscription.deleteMany({ accountId });
+  await Piggybank.deleteMany({ accountId });
   return deleted_account;
 }
-
-const calculateBalance = async (accountId) => {
-  const transactions = await Transaction.find({ accountId });
-  const expenseSum = transactions
-    .filter((el) => {
-      if (el.type === 'Expense') return el;
-    })
-    .reduce((acc, el) => acc + el.transactionAmount, 0);
-
-  const incomeSum = transactions
-    .filter((el) => {
-      if (el.type === 'Income') return el;
-    })
-    .reduce((acc, el) => acc + el.transactionAmount, 0);
-  const account = await Account.findById(accountId);
-  if (!account) {
-    throw ApiError.BadRequest('Account was not found');
-  }
-  const sum = incomeSum - expenseSum;
-  account.balance = sum;
-  await account.save();
-  return sum;
-};
-
 module.exports = {
   getAllAccounts,
   getOneAccount,
   removeOneAccount,
   updateAccount,
   createAccount,
-  calculateBalance,
 };

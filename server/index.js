@@ -5,6 +5,7 @@ const userRouter = require('./routes/user');
 const categoryRouter = require('./routes/category');
 const transactionRouter = require('./routes/transaction');
 const subscriptionRouter = require('./routes/subscription');
+const piggybankRouter = require('./routes/piggybank');
 const errorMiddleware = require('./middleware/error-middleware');
 const app = express();
 const cookieParser = require('cookie-parser');
@@ -14,7 +15,7 @@ app.use('/api/accounts', accountRouter);
 app.use('/api/transactions', transactionRouter);
 app.use('/api/categories', categoryRouter);
 app.use('/api/subscriptions', subscriptionRouter);
-
+app.use('/api/piggybanks', piggybankRouter);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
 app.use(errorMiddleware);
