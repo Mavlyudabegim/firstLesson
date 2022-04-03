@@ -1,0 +1,64 @@
+@use "src/variables" as var;
+@use "src/colors" as color;
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url("../../../assets/money-savings-currency-fingers\ 1.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100vh;
+
+  &__row {
+    width: var.$width_30rem;
+    display: block;
+    height: 50px;
+    &:first-of-type {
+      margin-top: 37px;
+    }
+    &:last-of-type {
+      margin: 30px 0 34px 0;
+    }
+    border: 1px solid color.$auth__row-border;
+    border-radius: var.$border_10px;
+
+    & input {
+      padding-left: 18px;
+    }
+  }
+
+  &__form {
+    margin: 261px 0;
+    background-color: color.$auth__form-bg;
+    padding: 61px 83px 74px 83px;
+    border-radius: var.$border_10px;
+  }
+  &__logo {
+    color: color.$dark;
+    line-height: 55.2px;
+    font-weight: 400;
+    font-size: 40px;
+    text-transform: capitalize;
+    text-align: center;
+  }
+  &__btn {
+    width: var.$width_30rem;
+    background-color: color.$auth__btn;
+    border-radius: var.$border_10px;
+    box-shadow: none;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    line-height: 22.97px;
+    font-size: 18px;
+  }
+  &__error-message {
+    color: color.$auth__error-message;
+  }
+  & .eye {
+    position: absolute;
+    top: -9px;
+    right: 0;
+  }
+}

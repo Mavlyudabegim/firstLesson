@@ -1,0 +1,14 @@
+<mat-toolbar class="navbar">
+  <a href="#" class="navbar__logo">Budgetify</a>
+  <div class="navbar__spacer"></div>
+  <a href="#" class="navbar__link" mat-button>Categories</a>
+  <a href="#" class="navbar__link" mat-button>Subscriptions</a>
+  <a href="#" class="navbar__link" mat-button>Obligatory</a>
+  <a href="#" class="navbar__link" mat-button>Statistic</a>
+  <a href="#" class="navbar__link" mat-button>Admin</a>
+  <div *ngIf="isLoggedIn" class="navbar__logout">
+    <a href="#" (click)="onClick()" class="mat-raised-button" color="primary"
+      >Logout</a
+    >
+  </div>
+</mat-toolbar>

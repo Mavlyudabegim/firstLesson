@@ -1,0 +1,10 @@
+<div class="home">
+  <app-navbar
+    [isLoggedIn]="isLoggedIn"
+    (loggedOutClicked)="logout()"
+  ></app-navbar>
+  <section class="home__new-card">
+    <span class="home__new-card__title">Add account</span>
+    <button class="home__new-card__add-btn">+</button>
+  </section>
+</div>
