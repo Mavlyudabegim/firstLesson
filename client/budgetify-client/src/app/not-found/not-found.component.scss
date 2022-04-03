@@ -1,0 +1,11 @@
+.error-page {
+  margin-top: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__text {
+    font-size: 34px;
+    font-weight: 700;
+  }
+}

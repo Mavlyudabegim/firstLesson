@@ -1,4 +1,5 @@
 require('dotenv').config();
+const cors = require('cors');
 const express = require('express');
 const accountRouter = require('./routes/account');
 const userRouter = require('./routes/user');
@@ -9,6 +10,7 @@ const piggybankRouter = require('./routes/piggybank');
 const errorMiddleware = require('./middleware/error-middleware');
 const app = express();
 const cookieParser = require('cookie-parser');
+app.use(cors());
 app.use(cookieParser());
 app.use('/api', userRouter);
 app.use('/api/accounts', accountRouter);
