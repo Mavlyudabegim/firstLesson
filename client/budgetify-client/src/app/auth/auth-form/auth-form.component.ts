@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -11,20 +11,18 @@ import { AuthService } from '../../services/auth.service';
 export class AuthFormComponent implements OnInit {
   public loginErrorMessage: string = '';
   public isPasswordVisible: boolean = false;
-  loginForm: FormGroup = new FormGroup({
+  public loginForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [
       Validators.required,
       Validators.minLength(6),
     ]),
   });
-  hasUser: boolean = false;
-  @Input()
-  signInError: string = '';
+
   constructor(private authService: AuthService, private router: Router) {}
   ngOnInit(): void {}
 
-  onSubmit() {
+  public onSubmit(): void {
     const { email, password } = this.loginForm.value;
     this.authService.login(email, password).subscribe({
       next: (userData) => {

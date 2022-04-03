@@ -6,13 +6,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  @Input() isLoggedIn!: boolean;
+  @Input() public isLoggedIn: boolean = true;
   @Output() menuButtonClicked: EventEmitter<void> = new EventEmitter<void>();
   @Output() loggedOutClicked: EventEmitter<void> = new EventEmitter<void>();
   constructor() {}
 
   ngOnInit(): void {}
-  onClick(): boolean {
+  public onClick(): boolean {
     this.loggedOutClicked.emit();
     return false;
   }

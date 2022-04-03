@@ -1,16 +1,17 @@
 @use "src/variables" as var;
+@use "src/colors" as color;
 .home {
-  background-color: var.$base_bg;
+  background-color: color.$base_bg;
   padding-bottom: 150px;
   &__new-card {
     width: 350px;
     height: 150px;
     background: linear-gradient(
       170deg,
-      rgba(176, 30, 180, 0.6951155462184874) 45%,
-      rgba(0, 198, 255, 0.38699229691876746) 100%
+      color.$home__new-card-bg1 45%,
+      color.$home__new-card-bg2 100%
     );
-    box-shadow: 5px 10px 20px 0px #00000040;
+    box-shadow: 5px 10px 20px 0px color.$home__new-card-box;
     border-radius: var.$border_10px;
     margin: 100px auto;
     padding: 80px 100px;
@@ -19,8 +20,8 @@
     align-items: center;
     &__add-btn {
       border-radius: 50%;
-      background-color: var.$white;
-      color: var.$base_color;
+      background-color: color.$light;
+      color: color.$base_color;
       border: none;
       width: 60px;
       height: 60px;
@@ -30,7 +31,7 @@
       }
     }
     &__title {
-      color: var.$white;
+      color: color.$light;
       font-size: 30px;
     }
   }

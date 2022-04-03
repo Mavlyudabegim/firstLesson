@@ -19,7 +19,7 @@ export class AuthService {
     const token = localStorage.getItem('token');
     return token ? true : false;
   }
-  public login(email: string, password: string) {
+  public login(email: string, password: string): Observable<any> {
     return this.httpClient
       .post('http://localhost:3000/api/login', {
         email,
