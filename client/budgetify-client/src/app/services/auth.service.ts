@@ -4,12 +4,13 @@ import {
   HttpParams,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  public userId: string = '';
   constructor(private httpClient: HttpClient) {}
   private setToken(data: any): void {
     localStorage.setItem('token', data.token);
@@ -19,6 +20,7 @@ export class AuthService {
     const token = localStorage.getItem('token');
     return token ? true : false;
   }
+
   public login(email: string, password: string): Observable<any> {
     return this.httpClient
       .post('http://localhost:3000/api/login', {
@@ -28,6 +30,7 @@ export class AuthService {
       .pipe(
         tap((res: any) => {
           this.setToken(res);
+          this.userId = res.user.id;
         })
       );
   }

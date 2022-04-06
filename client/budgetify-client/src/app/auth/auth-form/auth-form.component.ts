@@ -27,11 +27,12 @@ export class AuthFormComponent implements OnInit {
     this.authService.login(email, password).subscribe({
       next: (userData) => {
         this.loginErrorMessage = '';
-        this.router.navigateByUrl('/home');
+        this.router.navigateByUrl(`/home/${userData.user.id}`);
       },
       error: (e) => (this.loginErrorMessage = e.error.message),
     });
   }
+
   public togglePass(): void {
     this.isPasswordVisible = !this.isPasswordVisible;
   }

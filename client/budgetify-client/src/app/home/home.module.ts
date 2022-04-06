@@ -5,6 +5,9 @@ import { HomeComponent } from './home.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AuthGuard } from '../auth/auth.guard';
+import { AccountComponent } from './account/account.component';
+import { TransactionComponent } from './transaction/transaction.component';
+
 const routes: Routes = [
   {
     path: 'home',
@@ -13,7 +16,12 @@ const routes: Routes = [
   },
 ];
 @NgModule({
-  declarations: [HomeComponent, NavbarComponent],
+  declarations: [
+    HomeComponent,
+    NavbarComponent,
+    AccountComponent,
+    TransactionComponent,
+  ],
   imports: [CommonModule, SharedModule, RouterModule.forChild(routes)],
   exports: [HomeComponent],
 })

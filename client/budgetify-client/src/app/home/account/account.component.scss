@@ -1,0 +1,65 @@
+@use "src/variables" as var;
+@use "src/colors" as color;
+
+.home {
+  background-color: color.$base_bg;
+  &__new-card {
+    width: 350px;
+    height: 150px;
+    background: linear-gradient(
+      170deg,
+      color.$home__new-card-bg1 45%,
+      color.$home__new-card-bg2 100%
+    );
+    box-shadow: 5px 10px 20px 0px color.$home__new-card-box;
+    border-radius: var.$border_10px;
+    margin: 100px auto;
+    padding: 80px 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &__add-btn {
+      border-radius: 50%;
+      background-color: color.$light;
+      color: color.$base_color;
+      border: none;
+      width: 60px;
+      height: 60px;
+      font-size: 40px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    &__title {
+      color: color.$light;
+      font-size: 30px;
+    }
+  }
+  &__hide {
+    position: relative;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: gray;
+  }
+  &__new-account-sidebar {
+    width: 350px;
+    padding: 30px;
+  }
+  &__button-row {
+    height: auto;
+    display: flex;
+    justify-content: end;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  &__cancel-btn {
+    margin-right: 15px;
+  }
+}
+.example-full-width {
+  width: 100%;
+}

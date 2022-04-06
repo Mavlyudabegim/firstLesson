@@ -1,0 +1,6 @@
+<article *ngFor="let transaction of transactions" class="transaction">
+  <h2>{{ transaction.title }}</h2>
+  <span class="transaction__type">{{ transaction.type }}</span>
+  <span>{{ transaction.paymentDate }}</span>
+  <p>{{ transaction.transactionAmount }}</p>
+</article>
