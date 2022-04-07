@@ -1,0 +1,8 @@
+@use "src/colors" as color;
+.transaction {
+  margin: 40px auto;
+  width: 617px;
+  height: 91px;
+  border-radius: 10px;
+  background-color: color.$transaction__bg;
+}

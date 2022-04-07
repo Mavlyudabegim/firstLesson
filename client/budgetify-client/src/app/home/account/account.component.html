@@ -1,0 +1,55 @@
+<form class="account">
+  <mat-drawer-container class="account__container" hasBackdrop="true">
+    <mat-drawer
+      #drawer
+      position="end"
+      mode="push"
+      class="home__new-account-sidebar"
+    >
+      <p class="mat-h2">Create new account</p>
+      <p>
+        <mat-form-field class="account__full-width" appearance="outline">
+          <mat-label>Title</mat-label>
+          <input matInput required />
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field class="account__full-width" appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea matInput></textarea>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field
+          ><mat-label>Currency</mat-label>
+          <mat-select [(value)]="selectedCurrency">
+            <mat-option value="$">$</mat-option>
+            <mat-option value="€">€</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </p>
+      <div class="home__button-row">
+        <button
+          mat-button
+          color="basic"
+          class="home__cancel-btn"
+          (click)="drawer.close()"
+        >
+          Cancel
+        </button>
+        <button mat-raised-button color="primary" type="submit">Save</button>
+      </div>
+    </mat-drawer>
+    <div class="account__sidenav-content home__new-card">
+      <span class="home__new-card__title">Add account</span>
+      <button
+        type="button"
+        mat-button
+        (click)="drawer.toggle()"
+        class="home__new-card__add-btn"
+      >
+        +
+      </button>
+    </div>
+  </mat-drawer-container>
+</form>

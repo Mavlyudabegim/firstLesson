@@ -59,66 +59,6 @@
   &__cancel-btn {
     margin-right: 15px;
   }
-  &__accounts-row {
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
-  }
-  &__account {
-    width: 430px;
-    height: 134px;
-    padding: 23px;
-    border-radius: 10px;
-    position: relative;
-    box-shadow: 5px 10px 20px 0px color.$dark;
-    background: linear-gradient(
-      170deg,
-      color.$home__new-card-bg1 45%,
-      color.$home__new-card-bg2 100%
-    );
-    color: color.$transaction__bg;
-    text-decoration: none;
-    &:hover {
-      opacity: 0.8;
-    }
-    &:not(:last-child) {
-      margin-right: 20px;
-    }
-    &-title {
-      font-style: normal;
-      font-weight: 400;
-      font-size: 32px;
-      line-height: 41px;
-    }
-    &-currency {
-      width: 60px;
-      height: 60px;
-      background-color: color.$light;
-      color: color.$base_color;
-      border-radius: 50%;
-      font-style: normal;
-      font-weight: 400;
-      font-size: 40px;
-      line-height: 55px;
-      text-align: center;
-      position: absolute;
-      right: 23px;
-      top: 23px;
-    }
-    &-balance {
-      font-style: normal;
-      font-weight: 400;
-      font-size: 53px;
-      line-height: 68px;
-    }
-    &-cards {
-      padding: 30px;
-      &-title {
-        text-align: center;
-        font-size: 50px;
-      }
-    }
-  }
 }
 .example-full-width {
   width: 100%;

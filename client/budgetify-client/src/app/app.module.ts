@@ -11,9 +11,10 @@ import { SharedModule } from './shared/shared.module';
 import { HomeModule } from './home/home.module';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { MatDialog } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [AppComponent, NotFoundComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
