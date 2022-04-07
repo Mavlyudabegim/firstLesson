@@ -9,7 +9,6 @@ import { NotFoundComponent } from './not-found/not-found.component';
 const routes: Routes = [
   { path: 'login', component: AuthFormComponent },
   { path: '', pathMatch: 'full', redirectTo: '/home' },
-  { path: 'home/:userId', component: HomeComponent },
   { path: 'home/transaction/:accountId', component: TransactionComponent },
   {
     path: '**',

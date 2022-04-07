@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+@UntilDestroy()
 @Component({
   selector: 'app-auth-form',
   templateUrl: './auth-form.component.html',
@@ -24,13 +25,16 @@ export class AuthFormComponent implements OnInit {
 
   public onSubmit(): void {
     const { email, password } = this.loginForm.value;
-    this.authService.login(email, password).subscribe({
-      next: (userData) => {
-        this.loginErrorMessage = '';
-        this.router.navigateByUrl(`/home/${userData.user.id}`);
-      },
-      error: (e) => (this.loginErrorMessage = e.error.message),
-    });
+    this.authService
+      .login(email, password)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (userData) => {
+          this.loginErrorMessage = '';
+          this.router.navigateByUrl(`/home/${userData.user.id}`);
+        },
+        error: (e) => (this.loginErrorMessage = e.error.message),
+      });
   }
 
   public togglePass(): void {

@@ -21,15 +21,15 @@ export class AccountComponent {
     currency: new FormControl(''),
   });
   constructor(private router: Router, private authService: AuthService) {}
-  public get isLoggedIn() {
+  public get isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
   }
 
-  public logout() {
+  public logout(): void {
     this.authService.logout();
     this.router.navigateByUrl('/login');
   }
-  public hide() {
+  public hide(): void {
     this.isHidden = true;
   }
 }

@@ -14,7 +14,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { MatDialog } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [AppComponent, NotFoundComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

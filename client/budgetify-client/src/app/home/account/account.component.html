@@ -1,5 +1,5 @@
-<form>
-  <mat-drawer-container class="example-container" hasBackdrop="true">
+<form class="account">
+  <mat-drawer-container class="account__container" hasBackdrop="true">
     <mat-drawer
       #drawer
       position="end"
@@ -8,13 +8,13 @@
     >
       <p class="mat-h2">Create new account</p>
       <p>
-        <mat-form-field class="example-full-width" appearance="outline">
+        <mat-form-field class="account__full-width" appearance="outline">
           <mat-label>Title</mat-label>
           <input matInput required />
         </mat-form-field>
       </p>
       <p>
-        <mat-form-field class="example-full-width" appearance="outline">
+        <mat-form-field class="account__full-width" appearance="outline">
           <mat-label>Description</mat-label>
           <textarea matInput></textarea>
         </mat-form-field>
@@ -40,7 +40,7 @@
         <button mat-raised-button color="primary" type="submit">Save</button>
       </div>
     </mat-drawer>
-    <div class="example-sidenav-content home__new-card">
+    <div class="account__sidenav-content home__new-card">
       <span class="home__new-card__title">Add account</span>
       <button
         type="button"
