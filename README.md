@@ -1,3 +1,7 @@
+# To launch client side 
+# install node
+# npm install ng
+# ng serve
 
-# firstLesson
-
+# To launch server side
+# npm start
