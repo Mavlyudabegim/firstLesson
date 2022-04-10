@@ -11,7 +11,7 @@ export class NavbarComponent implements OnInit {
   @Output() loggedOutClicked: EventEmitter<void> = new EventEmitter<void>();
   constructor() {}
 
-  ngOnInit(): void {}
+  public ngOnInit(): void {}
   public onClick(): boolean {
     this.loggedOutClicked.emit();
     return false;

@@ -7,17 +7,17 @@ import { TransactionModel } from '../shared/models/transaction.model';
   providedIn: 'root',
 })
 export class TransactionService {
-  public transaction: TransactionModel[] = [];
+  public transactions: TransactionModel[] = [];
   constructor(private httpClient: HttpClient) {}
-  public getTransactions(transactionId: string): Observable<any> {
+  public getTransactions(accountId: string): Observable<any> {
     return this.httpClient
       .get(
-        `http://localhost:3000/api/transactions/${transactionId}/account-transactions`
+        `http://localhost:3000/api/transactions/${accountId}/account-transactions`
       )
       .pipe(
         tap({
           next: (res: any) => {
-            this.transaction = res;
+            this.transactions = res;
           },
         })
       );

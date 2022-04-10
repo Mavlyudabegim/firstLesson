@@ -1,0 +1,37 @@
+<section class="home__account-cards">
+  <h3 class="home__account-cards-title">My accounts</h3>
+  <article *ngIf="accounts" class="home__accounts-row">
+    <div *ngFor="let account of accounts" class="home__account">
+      <h2>
+        <a
+          href="home/transaction/{{ account._id }}"
+          mat-button
+          class="home__account-title"
+          >{{ account.title }}</a
+        >
+      </h2>
+      <p class="home__account-currency">{{ account.currency }}</p>
+      <p class="home__account-balance">{{ account.balance }}</p>
+      <div class="home__account-btns">
+        <button
+          type="button"
+          class="home__account-delete-btn home__account-btn"
+          mat-raised-button
+          color="warn"
+          (click)="deleteAccount(account._id)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button
+          type="button"
+          class="home__account-edit-btn home__account-btn"
+          mat-raised-button
+          color="primary"
+          (click)="openEditDialog(account._id)"
+        >
+          <mat-icon>create</mat-icon>
+        </button>
+      </div>
+    </div>
+  </article>
+</section>

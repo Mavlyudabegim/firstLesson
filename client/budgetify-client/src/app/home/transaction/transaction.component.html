@@ -1,6 +1,66 @@
-<article *ngFor="let transaction of transactions" class="transaction">
-  <h2>{{ transaction.title }}</h2>
-  <span class="transaction__type">{{ transaction.type }}</span>
-  <span>{{ transaction.paymentDate }}</span>
-  <p>{{ transaction.transactionAmount }}</p>
-</article>
+<div class="transactions">
+  <section class="transaction__accounts">
+    <div *ngFor="let account of accounts" class="transaction__account">
+      <h2>
+        <a
+          href="home/transaction/{{ account._id }}"
+          mat-button
+          class="transaction__account-title"
+          >{{ account.title }}</a
+        >
+      </h2>
+      <p class="transaction__account-currency">{{ account.currency }}</p>
+      <p class="transaction__account-balance">
+        {{ account.balance.toFixed(2) }}
+      </p>
+    </div>
+  </section>
+  <div>
+    <article *ngFor="let transaction of transactions" class="transaction">
+      <div class="transaction__category">Home</div>
+      <div class="transaction__card">
+        <h2 class="transaction__title">{{ transaction.title }}</h2>
+        <p
+          class="transaction__amount"
+          [ngClass]="{
+            'transaction__expense-amount': transaction.type === 'Expense',
+            'transaction__income-amount': transaction.type == 'Income'
+          }"
+        >
+          <span class="transaction__minus" *ngIf="transaction.type == 'Expense'"
+            >-</span
+          >{{ transaction.transactionAmount.toFixed(2) }}$
+        </p>
+
+        <p class="transaction__type">
+          <mat-icon
+            class="transaction__expense-icon transaction__icon"
+            *ngIf="transaction.type == 'Expense'"
+            >arrow_downward</mat-icon
+          >
+          <mat-icon
+            class="transaction__income-icon transaction__icon"
+            *ngIf="transaction.type == 'Income'"
+            >arrow_upward</mat-icon
+          ><span>{{ transaction.type }}</span>
+          <span class="transaction__payment-date">{{
+            transaction.paymentDate.substring(0, 10)
+          }}</span>
+        </p>
+      </div>
+    </article>
+  </div>
+  <div class="transaction__details">
+    <ul>
+      <li><a href="#">Income</a></li>
+      <li><a href="#">Expenses</a></li>
+      <li><a href="#">Add Transaction</a></li>
+      <li><a href="home/{{ userId }}">Add Account</a></li>
+    </ul>
+    <ul>
+      <li><a href="#">Add Piggy Bank</a></li>
+      <li><a href="#">Apartment</a></li>
+      <li><a href="#">Car</a></li>
+    </ul>
+  </div>
+</div>

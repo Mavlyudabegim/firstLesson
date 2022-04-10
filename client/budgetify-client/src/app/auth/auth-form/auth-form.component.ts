@@ -21,7 +21,7 @@ export class AuthFormComponent implements OnInit {
   });
 
   constructor(private authService: AuthService, private router: Router) {}
-  ngOnInit(): void {}
+  public ngOnInit(): void {}
 
   public onSubmit(): void {
     const { email, password } = this.loginForm.value;

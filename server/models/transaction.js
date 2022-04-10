@@ -13,7 +13,10 @@ const transactionSchema = new mongoose.Schema(
       required: true,
     },
     description: { type: String, maxlength: 200 },
-    paymentDate: { type: Date, default: Date.now() },
+    paymentDate: {
+      type: Date,
+      default: Date.now(),
+    },
     categoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
     transactionAmount: { type: Number, default: 0 },
     imgLink: { type: String },

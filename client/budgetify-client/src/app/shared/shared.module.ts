@@ -8,6 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 @NgModule({
   declarations: [],
   imports: [
@@ -20,6 +22,8 @@ import { MatCardModule } from '@angular/material/card';
     MatSidenavModule,
     MatSelectModule,
     MatCardModule,
+    MatDialogModule,
+    MatSnackBarModule,
   ],
   exports: [
     MatButtonModule,
@@ -30,6 +34,8 @@ import { MatCardModule } from '@angular/material/card';
     MatSidenavModule,
     MatSelectModule,
     MatCardModule,
+    MatDialogModule,
+    MatSnackBarModule,
   ],
 })
 export class SharedModule {}

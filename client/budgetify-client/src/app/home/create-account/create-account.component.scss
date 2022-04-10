@@ -26,9 +26,6 @@
       width: 60px;
       height: 60px;
       font-size: 40px;
-      &:hover {
-        cursor: pointer;
-      }
     }
     &__title {
       color: color.$light;
@@ -67,7 +64,7 @@
   }
   &__account {
     width: 430px;
-    height: 134px;
+    height: 185px;
     padding: 23px;
     border-radius: 10px;
     position: relative;
@@ -81,9 +78,6 @@
     text-decoration: none;
     margin-bottom: 20px;
     margin-right: 20px;
-    &:hover {
-      opacity: 0.8;
-    }
 
     &-title {
       font-style: normal;
@@ -118,6 +112,17 @@
         text-align: center;
         font-size: 50px;
       }
+    }
+    &-btns {
+      display: flex;
+      justify-content: end;
+    }
+    &-btn {
+      font-size: 30px;
+      border: none;
+    }
+    &-delete-btn {
+      margin-right: 10px;
     }
   }
 }
