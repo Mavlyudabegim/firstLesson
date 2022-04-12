@@ -10,10 +10,10 @@ export class AccountService implements OnInit {
   public accounts: AccountModel[] = [];
   public account!: AccountModel;
   public activeAccount: AccountModel = this.accounts[0];
-  private __refreshNeeded$ = new Subject<void>();
+  private refreshNeeded$ = new Subject<void>();
   constructor(private httpClient: HttpClient) {}
   public get refreshNeeded() {
-    return this.__refreshNeeded$;
+    return this.refreshNeeded$;
   }
   public getAccounts(userId: string): Observable<any> {
     return this.httpClient
@@ -35,7 +35,7 @@ export class AccountService implements OnInit {
       })
       .pipe(
         tap(() => {
-          this.__refreshNeeded$.next();
+          this.refreshNeeded$.next();
         })
       );
   }
@@ -44,7 +44,7 @@ export class AccountService implements OnInit {
       .delete(`http://localhost:3000/api/accounts/${accountId}`)
       .pipe(
         tap(() => {
-          this.__refreshNeeded$.next();
+          this.refreshNeeded$.next();
         })
       );
   }
@@ -60,7 +60,7 @@ export class AccountService implements OnInit {
       })
       .pipe(
         tap(() => {
-          this.__refreshNeeded$.next();
+          this.refreshNeeded$.next();
         })
       );
   }

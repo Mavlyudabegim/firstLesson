@@ -15,10 +15,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { HomeRoutingModule } from './home/home-routing.module';
 import { CreateAccountComponent } from './home/create-account/create-account.component';
 import { EditConfirmationComponent } from './home/dialogs/edit-confirmation/edit-confirmation.component';
-import { NavbarComponent } from './navbar/navbar.component';
+import { NavbarModule } from './navbar/navbar.module';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -29,6 +29,7 @@ import { NavbarComponent } from './navbar/navbar.component';
     AuthModule,
     SharedModule,
     HomeModule,
+    NavbarModule,
   ],
   providers: [
     {

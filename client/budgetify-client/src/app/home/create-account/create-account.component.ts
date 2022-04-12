@@ -50,22 +50,25 @@ export class CreateAccountComponent implements OnInit {
       },
     });
     const snack = this.snackBar;
-    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        this.accountService.deleteAccount(accountId).subscribe();
-        snack.dismiss();
-        const a = document.createElement('a');
-        a.click();
-        a.remove();
-        snack.dismiss();
-        this.snackBar.open('Account successfully has been deleted', '', {
-          duration: 2000,
-          verticalPosition: 'top',
-          horizontalPosition: 'center',
-          panelClass: ['green-snackbar'],
-        });
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(untilDestroyed(this))
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.accountService.deleteAccount(accountId).subscribe();
+          snack.dismiss();
+          const a = document.createElement('a');
+          a.click();
+          a.remove();
+          snack.dismiss();
+          this.snackBar.open('Account successfully has been deleted', '', {
+            duration: 2000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            panelClass: ['green-snackbar'],
+          });
+        }
+      });
   }
 
   public getOneAccount(accountId: string): any {
@@ -79,6 +82,9 @@ export class CreateAccountComponent implements OnInit {
   public openEditDialog(accountId: string): void {
     const dialogRef = this.dialog.open(EditConfirmationComponent);
     this.getOneAccount(accountId);
-    this.accountService.editAccount(accountId, this.account).subscribe();
+    this.accountService
+      .editAccount(accountId, this.account)
+      .pipe(untilDestroyed(this))
+      .subscribe();
   }
 }

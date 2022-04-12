@@ -6,10 +6,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { AccountService } from 'src/app/services/account.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { HomeComponent } from '../home.component';
 
+@UntilDestroy()
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
@@ -46,8 +48,8 @@ export class AccountComponent {
     this.userId = this.homeComponent.userId;
     this.accountService
       .postAccount(this.userId, formRef.value)
+      .pipe(untilDestroyed(this))
       .subscribe((res: any) => {
-        console.log(res);
         formRef.resetForm();
       });
   }
