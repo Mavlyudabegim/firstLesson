@@ -1,11 +1,17 @@
-import { Component, Input } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Component } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  Validators,
+} from '@angular/forms';
+import { Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { AccountService } from 'src/app/services/account.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { AccountModel } from './account.model';
+import { HomeComponent } from '../home.component';
 
+@UntilDestroy()
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
@@ -18,9 +24,15 @@ export class AccountComponent {
   public accountForm: FormGroup = new FormGroup({
     title: new FormControl('', [Validators.required]),
     description: new FormControl(''),
-    currency: new FormControl(''),
+    currency: new FormControl('', [Validators.required]),
   });
-  constructor(private router: Router, private authService: AuthService) {}
+
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private accountService: AccountService,
+    private homeComponent: HomeComponent
+  ) {}
   public get isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
   }
@@ -31,5 +43,14 @@ export class AccountComponent {
   }
   public hide(): void {
     this.isHidden = true;
+  }
+  public onSubmit(formRef: FormGroupDirective): void {
+    this.userId = this.homeComponent.userId;
+    this.accountService
+      .postAccount(this.userId, formRef.value)
+      .pipe(untilDestroyed(this))
+      .subscribe((res: any) => {
+        formRef.resetForm();
+      });
   }
 }

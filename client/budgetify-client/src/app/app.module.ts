@@ -12,6 +12,10 @@ import { HomeModule } from './home/home.module';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { MatDialog } from '@angular/material/dialog';
+import { HomeRoutingModule } from './home/home-routing.module';
+import { CreateAccountComponent } from './home/create-account/create-account.component';
+import { EditConfirmationComponent } from './home/dialogs/edit-confirmation/edit-confirmation.component';
+import { NavbarModule } from './navbar/navbar.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +29,7 @@ import { MatDialog } from '@angular/material/dialog';
     AuthModule,
     SharedModule,
     HomeModule,
+    NavbarModule,
   ],
   providers: [
     {

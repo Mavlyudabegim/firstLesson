@@ -2,7 +2,7 @@ export interface TransactionModel {
   title: string;
   type: string;
   description: string;
-  paymentDate: Date;
+  paymentDate: string;
   categoryId: string;
   transactionAmount: number;
 }

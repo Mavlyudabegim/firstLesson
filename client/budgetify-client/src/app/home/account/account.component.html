@@ -1,4 +1,9 @@
-<form class="account">
+<form
+  class="account"
+  (ngSubmit)="onSubmit(formDirective)"
+  [formGroup]="accountForm"
+  #formDirective="ngForm"
+>
   <mat-drawer-container class="account__container" hasBackdrop="true">
     <mat-drawer
       #drawer
@@ -10,19 +15,19 @@
       <p>
         <mat-form-field class="account__full-width" appearance="outline">
           <mat-label>Title</mat-label>
-          <input matInput required />
+          <input matInput required formControlName="title" />
         </mat-form-field>
       </p>
       <p>
         <mat-form-field class="account__full-width" appearance="outline">
           <mat-label>Description</mat-label>
-          <textarea matInput></textarea>
+          <textarea matInput formControlName="description"></textarea>
         </mat-form-field>
       </p>
       <p>
         <mat-form-field
           ><mat-label>Currency</mat-label>
-          <mat-select [(value)]="selectedCurrency">
+          <mat-select [(value)]="selectedCurrency" formControlName="currency">
             <mat-option value="$">$</mat-option>
             <mat-option value="€">€</mat-option>
           </mat-select>
@@ -37,7 +42,14 @@
         >
           Cancel
         </button>
-        <button mat-raised-button color="primary" type="submit">Save</button>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          (click)="drawer.close()"
+        >
+          Save
+        </button>
       </div>
     </mat-drawer>
     <div class="account__sidenav-content home__new-card">

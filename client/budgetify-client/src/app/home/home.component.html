@@ -1,22 +1,4 @@
 <div class="home">
-  <app-navbar
-    [isLoggedIn]="isLoggedIn"
-    (loggedOutClicked)="logout()"
-  ></app-navbar>
   <app-account></app-account>
-  <section class="home__account-cards">
-    <h3 class="home__account-cards-title">My accounts</h3>
-    <article *ngIf="accounts" class="home__accounts-row">
-      <a
-        *ngFor="let account of accounts"
-        class="home__account"
-        href="home/transaction/{{ account._id }}"
-      >
-        <h2 class="home__account-title">{{ account.title }}</h2>
-        <p class="home__account-currency">{{ account.currency }}</p>
-        <p class="home__account-balance">{{ account.balance }}</p>
-      </a>
-    </article>
-  </section>
-  <app-transaction></app-transaction>
+  <app-create-account></app-create-account>
 </div>
