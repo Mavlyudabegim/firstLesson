@@ -13,9 +13,9 @@ async function transaction_create(req, res, next) {
   try {
     const new_transaction = await transactionService.createTransaction(
       req.params.accountId,
-      req.params.categoryId,
       req.body
     );
+
     return res.status(201).json(new_transaction);
   } catch (error) {
     next(error);

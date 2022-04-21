@@ -1,6 +1,12 @@
 <div class="transactions">
   <section class="transaction__accounts">
-    <div *ngFor="let account of accounts" class="transaction__account">
+    <div
+      *ngFor="let account of accounts"
+      class="transaction__account"
+      [ngClass]="{
+        transaction__account__passive: accountId !== account._id
+      }"
+    >
       <h2>
         <a
           href="home/transaction/{{ account._id }}"
@@ -15,52 +21,581 @@
       </p>
     </div>
   </section>
-  <div>
-    <article *ngFor="let transaction of transactions" class="transaction">
-      <div class="transaction__category">Home</div>
-      <div class="transaction__card">
-        <h2 class="transaction__title">{{ transaction.title }}</h2>
-        <p
-          class="transaction__amount"
-          [ngClass]="{
-            'transaction__expense-amount': transaction.type === 'Expense',
-            'transaction__income-amount': transaction.type == 'Income'
-          }"
-        >
-          <span class="transaction__minus" *ngIf="transaction.type == 'Expense'"
-            >-</span
-          >{{ transaction.transactionAmount.toFixed(2) }}$
-        </p>
-
-        <p class="transaction__type">
-          <mat-icon
-            class="transaction__expense-icon transaction__icon"
-            *ngIf="transaction.type == 'Expense'"
-            >arrow_downward</mat-icon
+  <div class="transaction__accounts-row">
+    <div *ngIf="!filteredTransactions">
+      <article *ngFor="let transaction of transactions" class="transaction">
+        <div class="transaction__category">
+          {{ transaction.categories[0] }}
+        </div>
+        <div class="transaction__card">
+          <mat-drawer-container
+            class="transaction__details-container"
+            hasBackdrop="true"
+            fixedInViewport="true"
           >
-          <mat-icon
-            class="transaction__income-icon transaction__icon"
-            *ngIf="transaction.type == 'Income'"
-            >arrow_upward</mat-icon
-          ><span>{{ transaction.type }}</span>
-          <span class="transaction__payment-date">{{
-            transaction.paymentDate.substring(0, 10)
-          }}</span>
-        </p>
-      </div>
-    </article>
+            <mat-drawer
+              #drawer
+              mode="over"
+              position="end"
+              class="transaction__sidebar"
+            >
+              <p class="mat-h2">Transaction Details</p>
+              <p class="transaction__type">
+                <mat-icon
+                  class="transaction__expense-icon transaction__icon"
+                  *ngIf="transaction.type == 'Expense'"
+                  >arrow_downward</mat-icon
+                >
+                <mat-icon
+                  class="transaction__income-icon transaction__icon"
+                  *ngIf="transaction.type == 'Income'"
+                  >arrow_upward</mat-icon
+                ><span>{{ transaction.type }}</span>
+                <span
+                  class="transaction__amount"
+                  [ngClass]="{
+                    'transaction__expense-amount':
+                      transaction.type === 'Expense',
+                    'transaction__income-amount': transaction.type == 'Income'
+                  }"
+                >
+                  <span
+                    class="transaction__minus"
+                    *ngIf="transaction.type == 'Expense'"
+                    >-</span
+                  >{{ transaction.transactionAmount.toFixed(2) }}$
+                </span>
+              </p>
+              <h3 class="transaction__details-title">
+                {{ transaction.title }}
+              </h3>
+              <div class="transaction__category-row">
+                <span
+                  *ngFor="let category of transaction.categories"
+                  class="transaction__details-category"
+                >
+                  {{ category }}
+                </span>
+              </div>
+              <div class="transaction__details-date">
+                <span class="transaction__details-text">Payment Date: </span>
+                {{ transaction.paymentDate.substring(0, 10) }}
+              </div>
+              <div class="transaction__details-date">
+                <span class="transaction__details-text">Description: </span>
+                {{ transaction.description }}
+              </div>
+              <div class="transaction__button-row">
+                <button
+                  mat-button
+                  color="basic"
+                  class="transaction__cancel-btn"
+                  (click)="drawer.close()"
+                  type="button"
+                >
+                  Close
+                </button>
+              </div>
+            </mat-drawer>
+
+            <div class="transaction__sidenav-content">
+              <button
+                class="transaction__title"
+                type="button"
+                (click)="drawer.toggle()"
+              >
+                {{ transaction.title }}
+              </button>
+            </div>
+          </mat-drawer-container>
+
+          <p
+            class="transaction__amount"
+            [ngClass]="{
+              'transaction__expense-amount': transaction.type === 'Expense',
+              'transaction__income-amount': transaction.type == 'Income'
+            }"
+          >
+            <span
+              class="transaction__minus"
+              *ngIf="transaction.type == 'Expense'"
+              >-</span
+            >{{ transaction.transactionAmount.toFixed(2) }}$
+          </p>
+
+          <p class="transaction__type">
+            <mat-icon
+              class="transaction__expense-icon transaction__icon"
+              *ngIf="transaction.type == 'Expense'"
+              >arrow_downward</mat-icon
+            >
+            <mat-icon
+              class="transaction__income-icon transaction__icon"
+              *ngIf="transaction.type == 'Income'"
+              >arrow_upward</mat-icon
+            ><span>{{ transaction.type }}</span>
+            <span class="transaction__payment-date">{{
+              transaction.paymentDate.substring(0, 10)
+            }}</span>
+          </p>
+        </div>
+        <div class="transaction__btns">
+          <button
+            type="button"
+            class="transaction__delete-btn transaction__update-btn"
+            color="warn"
+            (click)="deleteTransaction(transaction._id)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+          <form
+            class="transaction__new-transaction"
+            [formGroup]="transactionEditForm"
+            #editTransactionForm="ngForm"
+            (ngSubmit)="onEditSubmit(transaction._id, editTransactionForm)"
+          >
+            <mat-drawer-container
+              class="transaction__edit-container"
+              hasBackdrop="true"
+              fixedInViewport="true"
+            >
+              <mat-drawer
+                #edit
+                mode="over"
+                position="end"
+                class="transaction__sidebar"
+              >
+                <div class="transaction__input-elements">
+                  <p class="mat-h2">Edit Transaction</p>
+
+                  <p>
+                    <mat-radio-group
+                      aria-label="Select an option"
+                      formControlName="type"
+                      appearance="outline"
+                      [(ngModel)]="transaction.type"
+                    >
+                      <div *ngIf="transaction.type === 'Income'">
+                        <mat-radio-button
+                          [value]="'Expense'"
+                          class="transaction__radio-btn"
+                          selected="!selected"
+                          (click)="selectCategory()"
+                          [ngClass]="{ transaction__unselected: selected }"
+                        >
+                          <mat-icon
+                            class="transaction__expense-icon transaction__icon"
+                            >arrow_downward</mat-icon
+                          >
+                          Expense</mat-radio-button
+                        >
+                        <mat-radio-button
+                          [value]="'Income'"
+                          class="transaction__radio-btn"
+                          selected="selected"
+                          [ngClass]="{ transaction__unselected: !selected }"
+                          (click)="selectCategory()"
+                          ><mat-icon
+                            class="transaction__income-icon transaction__icon"
+                            >arrow_upward</mat-icon
+                          >Income</mat-radio-button
+                        >
+                      </div>
+                      <div *ngIf="transaction.type === 'Expense'">
+                        <mat-radio-button
+                          [value]="'Expense'"
+                          class="transaction__radio-btn"
+                          selected="selected"
+                          (click)="selectCategory()"
+                          [ngClass]="{ transaction__unselected: !selected }"
+                        >
+                          <mat-icon
+                            class="transaction__expense-icon transaction__icon"
+                            >arrow_downward</mat-icon
+                          >
+                          Expense</mat-radio-button
+                        >
+                        <mat-radio-button
+                          [value]="'Income'"
+                          class="transaction__radio-btn"
+                          selected="!selected"
+                          [ngClass]="{ transaction__unselected: selected }"
+                          (click)="selectCategory()"
+                          ><mat-icon
+                            class="transaction__income-icon transaction__icon"
+                            >arrow_upward</mat-icon
+                          >Income</mat-radio-button
+                        >
+                      </div>
+                    </mat-radio-group>
+                  </p>
+                  <p>
+                    <mat-form-field
+                      class="transaction__full-width"
+                      appearance="outline"
+                    >
+                      <mat-label>Title</mat-label>
+                      <input
+                        matInput
+                        required
+                        formControlName="title"
+                        [(ngModel)]="transaction.title"
+                      />
+                    </mat-form-field>
+                  </p>
+                  <p>
+                    <mat-form-field
+                      appearance="fill"
+                      class="transaction__categories"
+                    >
+                      <mat-label>Categories</mat-label>
+                      <mat-select
+                        multiple
+                        required
+                        formControlName="categories"
+                        [(ngModel)]="transaction.categories"
+                      >
+                        <mat-option
+                          *ngFor="let category of categoryList"
+                          [value]="category"
+                          >{{ category }}</mat-option
+                        >
+                      </mat-select>
+                    </mat-form-field>
+                  </p>
+                  <p>
+                    <mat-form-field
+                      appearance="fill"
+                      floatLabel="always"
+                      class="transaction__new-amount"
+                    >
+                      <mat-label>Amount</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        class="transaction__right-align"
+                        formControlName="transactionAmount"
+                        [(ngModel)]="transaction.transactionAmount"
+                      />
+                      <span matPrefix>{{ currency }}</span>
+                    </mat-form-field>
+                  </p>
+                  <p>
+                    <mat-form-field appearance="fill" class="transaction__date">
+                      <mat-label>Payment date</mat-label>
+                      <input
+                        matInput
+                        [matDatepicker]="picker"
+                        formControlName="paymentDate"
+                        [(ngModel)]="transaction.paymentDate"
+                      />
+                      <mat-hint>MM/DD/YYYY</mat-hint>
+                      <mat-datepicker-toggle
+                        matSuffix
+                        [for]="picker"
+                      ></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                  </p>
+                  <p>
+                    <mat-form-field
+                      class="transaction__description"
+                      appearance="outline"
+                    >
+                      <mat-label>Description</mat-label>
+                      <input
+                        matInput
+                        required
+                        formControlName="description"
+                        [(ngModel)]="transaction.description"
+                      />
+                    </mat-form-field>
+                  </p>
+                  <p>
+                    Upload image
+
+                    <input
+                      type="file"
+                      formControlName="imgLink"
+                      (change)="selectImage($event)"
+                      class="transaction__file"
+                      id="imgLink"
+                      [(ngModel)]="transaction.imgLink"
+                    />
+                    <label for="imgLink" class="transaction__file-label"
+                      >+</label
+                    >
+                    <span *ngIf="image">{{ image.name }}</span>
+                  </p>
+                </div>
+                <div class="transaction__button-row">
+                  <button
+                    mat-button
+                    color="basic"
+                    class="transaction__cancel-btn"
+                    (click)="edit.close()"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    type="submit"
+                    (click)="edit.close()"
+                  >
+                    Save
+                  </button>
+                </div>
+              </mat-drawer>
+
+              <div class="transaction__sidenav-content">
+                <button
+                  type="button"
+                  class="transaction__edit-btn transaction__update-btn"
+                  (click)="edit.toggle()"
+                >
+                  <mat-icon>create</mat-icon>
+                </button>
+              </div>
+            </mat-drawer-container>
+          </form>
+        </div>
+      </article>
+    </div>
+    <div *ngIf="filteredTransactions">
+      <article
+        *ngFor="let transaction of filteredTransactions"
+        class="transaction"
+      >
+        <div class="transaction__category">Home</div>
+        <div class="transaction__card">
+          <h2 class="transaction__title">{{ transaction.title }}</h2>
+          <p
+            class="transaction__amount"
+            [ngClass]="{
+              'transaction__expense-amount': transaction.type === 'Expense',
+              'transaction__income-amount': transaction.type == 'Income'
+            }"
+          >
+            <span
+              class="transaction__minus"
+              *ngIf="transaction.type == 'Expense'"
+              >-</span
+            >{{ transaction.transactionAmount.toFixed(2) }}$
+          </p>
+
+          <p class="transaction__type">
+            <mat-icon
+              class="transaction__expense-icon transaction__icon"
+              *ngIf="transaction.type == 'Expense'"
+              >arrow_downward</mat-icon
+            >
+            <mat-icon
+              class="transaction__income-icon transaction__icon"
+              *ngIf="transaction.type == 'Income'"
+              >arrow_upward</mat-icon
+            ><span>{{ transaction.type }}</span>
+            <span class="transaction__payment-date">{{
+              transaction.paymentDate.substring(0, 10)
+            }}</span>
+          </p>
+        </div>
+      </article>
+    </div>
   </div>
+
   <div class="transaction__details">
-    <ul>
-      <li><a href="#">Income</a></li>
-      <li><a href="#">Expenses</a></li>
-      <li><a href="#">Add Transaction</a></li>
-      <li><a href="home/{{ userId }}">Add Account</a></li>
+    <ul class="transaction__list">
+      <li class="transaction__item">
+        <button
+          type="button"
+          class="transaction__item-btn"
+          (click)="sortByIncome()"
+        >
+          <mat-icon class="transaction__income-icon transaction__icon"
+            >arrow_upward</mat-icon
+          >
+          Income
+        </button>
+      </li>
+      <li class="transaction__item">
+        <button
+          type="button"
+          class="transaction__item-btn"
+          (click)="sortByExpense()"
+        >
+          <mat-icon class="transaction__expense-icon transaction__icon"
+            >arrow_downward</mat-icon
+          >Expenses
+        </button>
+      </li>
+      <li class="transaction__item transaction__new-transaction">
+        <form
+          class="transaction__new-transaction"
+          (ngSubmit)="onSubmit(formDirective)"
+          [formGroup]="transactionForm"
+          #formDirective="ngForm"
+          enctype="multipart/form-data"
+          action="/upload"
+        >
+          <mat-drawer-container
+            class="transaction__container"
+            hasBackdrop="true"
+            fixedInViewport="true"
+          >
+            <mat-drawer
+              #create
+              mode="over"
+              position="end"
+              class="transaction__sidebar"
+            >
+              <div class="transaction__input-elements">
+                <p class="mat-h2">Create new transaction</p>
+
+                <p>
+                  <mat-radio-group
+                    aria-label="Select an option"
+                    formControlName="type"
+                    appearance="outline"
+                  >
+                    <mat-radio-button
+                      [value]="'Expense'"
+                      class="transaction__radio-btn"
+                      selected="selected"
+                      (click)="selectCategory()"
+                      [ngClass]="{ transaction__unselected: !selected }"
+                    >
+                      <mat-icon
+                        class="transaction__expense-icon transaction__icon"
+                        >arrow_downward</mat-icon
+                      >
+                      Expense</mat-radio-button
+                    >
+                    <mat-radio-button
+                      [value]="'Income'"
+                      class="transaction__radio-btn"
+                      selected="!selected"
+                      [ngClass]="{ transaction__unselected: selected }"
+                      (click)="selectCategory()"
+                      ><mat-icon
+                        class="transaction__income-icon transaction__icon"
+                        >arrow_upward</mat-icon
+                      >Income</mat-radio-button
+                    >
+                  </mat-radio-group>
+                </p>
+                <p>
+                  <mat-form-field
+                    class="transaction__full-width"
+                    appearance="outline"
+                  >
+                    <mat-label>Title</mat-label>
+                    <input matInput required formControlName="title" />
+                  </mat-form-field>
+                </p>
+                <p>
+                  <mat-form-field
+                    appearance="fill"
+                    class="transaction__categories"
+                  >
+                    <mat-label>Categories</mat-label>
+                    <mat-select multiple required formControlName="categories">
+                      <mat-option
+                        *ngFor="let category of categoryList"
+                        [value]="category"
+                        >{{ category }}</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
+                </p>
+                <p>
+                  <mat-form-field
+                    appearance="fill"
+                    floatLabel="always"
+                    class="transaction__new-amount"
+                  >
+                    <mat-label>Amount</mat-label>
+                    <input
+                      matInput
+                      type="number"
+                      class="transaction__right-align"
+                      formControlName="transactionAmount"
+                    />
+                    <span matPrefix>{{ currency }}</span>
+                  </mat-form-field>
+                </p>
+                <p>
+                  <mat-form-field appearance="fill" class="transaction__date">
+                    <mat-label>Payment date</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="picker"
+                      formControlName="paymentDate"
+                    />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="picker"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                </p>
+                <p>
+                  <mat-form-field
+                    class="transaction__description"
+                    appearance="outline"
+                  >
+                    <mat-label>Description</mat-label>
+                    <input matInput required formControlName="description" />
+                  </mat-form-field>
+                </p>
+                <p>
+                  Upload image
+
+                  <input
+                    type="file"
+                    formControlName="imgLink"
+                    (change)="selectImage($event)"
+                    class="transaction__file"
+                    id="imgLink"
+                  />
+                  <label for="imgLink" class="transaction__file-label">+</label>
+                  <span *ngIf="image">{{ image.name }}</span>
+                </p>
+              </div>
+              <div class="transaction__button-row">
+                <button
+                  mat-button
+                  color="basic"
+                  class="transaction__cancel-btn"
+                  (click)="create.close()"
+                >
+                  Cancel
+                </button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  type="submit"
+                  (click)="create.close()"
+                >
+                  Save
+                </button>
+              </div>
+            </mat-drawer>
+
+            <div class="transaction__sidenav-content">
+              <button
+                (click)="create.toggle()"
+                class="add-account"
+                type="button"
+              >
+                <span class="transaction__plus-icon">+</span> Add Transaction
+              </button>
+            </div>
+          </mat-drawer-container>
+        </form>
+      </li>
     </ul>
-    <ul>
-      <li><a href="#">Add Piggy Bank</a></li>
-      <li><a href="#">Apartment</a></li>
-      <li><a href="#">Car</a></li>
-    </ul>
+    <app-piggybank></app-piggybank>
   </div>
 </div>

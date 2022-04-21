@@ -1,0 +1,91 @@
+@use "src/colors" as color;
+@use "src/variables" as var;
+:host ::ng-deep .mat-drawer-backdrop {
+  position: fixed !important;
+}
+:host ::ng-deep .mat-drawer-content {
+  overflow: hidden !important;
+  position: static !important;
+}
+:host ::ng-deep .mat-progress-bar-fill::after {
+  background-color: color.$piggybank__progress-bar !important;
+}
+.mat-drawer {
+  position: fixed;
+  width: 450px;
+}
+.mat-drawer-container {
+  width: 100%;
+  background-color: transparent;
+  position: static !important;
+}
+.piggybank {
+  &__right-align {
+    text-align: right;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      display: none;
+    }
+  }
+  &__list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    position: fixed;
+  }
+  &__new-piggybank {
+    background-color: color.$transaction__adding-btn;
+  }
+  &__item-btn {
+    border: none;
+    background-color: transparent;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  &__plus-btn {
+    width: 35px;
+    height: 35px;
+    background-color: color.$light;
+    color: color.$piggybank__bg;
+    border-radius: 50%;
+    border: none;
+    font-size: 51px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__item {
+    width: 235px;
+    padding: 8px 11px;
+    border-radius: var.$border_10px;
+    margin-bottom: 15px;
+  }
+  &__data,
+  &__item-btn,
+  &__data-left {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  &__data {
+    justify-content: space-between;
+  }
+  &__details {
+    background-color: color.$piggybank__bg;
+  }
+  &__pig-icon {
+    width: 35px;
+    height: 35px;
+    background-color: color.$light;
+    border-radius: 50%;
+    position: relative;
+    margin-right: 8px;
+    display: inline-block;
+    & img {
+      position: absolute;
+      left: -7px;
+      top: 3px;
+    }
+  }
+}

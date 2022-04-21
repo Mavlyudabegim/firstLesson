@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { Observable, Subject, tap } from 'rxjs';
 import { AccountModel } from '../shared/models/account.model';
-
+const account_url = `http://localhost:3000/api/accounts`;
 @Injectable({
   providedIn: 'root',
 })
@@ -16,19 +16,17 @@ export class AccountService implements OnInit {
     return this.refreshNeeded$;
   }
   public getAccounts(userId: string): Observable<any> {
-    return this.httpClient
-      .get(`http://localhost:3000/api/accounts/${userId}/user-accounts`)
-      .pipe(
-        tap({
-          next: (res: any) => {
-            this.accounts = res;
-          },
-        })
-      );
+    return this.httpClient.get(`${account_url}/${userId}/user-accounts`).pipe(
+      tap({
+        next: (res: any) => {
+          this.accounts = res;
+        },
+      })
+    );
   }
   public postAccount(userId: string, account: AccountModel): Observable<any> {
     return this.httpClient
-      .post(`http://localhost:3000/api/accounts/${userId}`, account, {
+      .post(`${account_url}/${userId}`, account, {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
@@ -40,20 +38,18 @@ export class AccountService implements OnInit {
       );
   }
   public deleteAccount(accountId: string): Observable<any> {
-    return this.httpClient
-      .delete(`http://localhost:3000/api/accounts/${accountId}`)
-      .pipe(
-        tap(() => {
-          this.refreshNeeded$.next();
-        })
-      );
+    return this.httpClient.delete(`${account_url}/${accountId}`).pipe(
+      tap(() => {
+        this.refreshNeeded$.next();
+      })
+    );
   }
   public editAccount(
     accountId: string,
     account: AccountModel
   ): Observable<any> {
     return this.httpClient
-      .put(`http://localhost:3000/api/accounts/${accountId}`, account, {
+      .put(`${account_url}/${accountId}`, account, {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
@@ -65,15 +61,13 @@ export class AccountService implements OnInit {
       );
   }
   public getOneAccount(accountId: string): Observable<any> {
-    return this.httpClient
-      .get(`http://localhost:3000/api/accounts/${accountId}`)
-      .pipe(
-        tap({
-          next: (res: any) => {
-            this.account = res;
-          },
-        })
-      );
+    return this.httpClient.get(`${account_url}/${accountId}`).pipe(
+      tap({
+        next: (res: any) => {
+          this.account = res;
+        },
+      })
+    );
   }
   public ngOnInit(): void {}
 }

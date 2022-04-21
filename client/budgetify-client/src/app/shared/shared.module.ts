@@ -10,6 +10,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 @NgModule({
   declarations: [],
   imports: [
@@ -24,6 +28,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatCardModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatProgressBarModule,
   ],
   exports: [
     MatButtonModule,
@@ -36,6 +44,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatCardModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatProgressBarModule,
   ],
 })
 export class SharedModule {}

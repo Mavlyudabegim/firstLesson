@@ -3,15 +3,20 @@
 .transactions {
   display: flex;
   margin: 40px auto;
+  justify-content: space-between;
 }
 .transaction {
   position: relative;
-  margin-left: 72px;
   width: 617px;
   padding: 18px;
   border-radius: var.$border_10px;
   background-color: color.$transaction__bg;
   display: flex;
+  margin-bottom: 15px;
+
+  &__accounts-row {
+    margin-left: 72px;
+  }
   &__category {
     background-color: color.$light;
     border-radius: var.$border_10px;
@@ -29,6 +34,12 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
+    border: none;
+    background-color: transparent;
+    height: 50px;
+    &:hover {
+      cursor: pointer;
+    }
   }
   &__icon {
     width: 35px;
@@ -36,7 +47,7 @@
     border-radius: 50%;
     text-align: center;
     color: color.$light;
-    font-size: 30px;
+    font-size: 35px;
     margin-right: 5px;
   }
   &__income-icon {
@@ -72,6 +83,7 @@
     height: 134px;
     padding: 23px;
     border-radius: 10px;
+    margin-bottom: 15px;
     position: relative;
     box-shadow: 5px 10px 20px 0px color.$home__new-card-box;
     background: linear-gradient(
@@ -81,11 +93,13 @@
     );
     color: color.$transaction__bg;
     text-decoration: none;
-    margin-right: 20px;
+
     &:hover {
       opacity: 0.8;
     }
-
+    &__accounts {
+      margin-right: 20px;
+    }
     &-title {
       font-style: normal;
       font-weight: 400;
@@ -120,11 +134,211 @@
         font-size: 50px;
       }
     }
+    &__passive {
+      opacity: 0.4;
+    }
   }
-
+  &__sidebar {
+    width: 450px;
+  }
+  &__unselected {
+    opacity: 0.4;
+    overflow: hidden !important;
+  }
   &__details {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    margin-left: 72px;
   }
+  &__list {
+    margin: 0;
+    list-style-type: none;
+    padding: 0;
+    &:last-child {
+      position: fixed;
+      bottom: 20px;
+    }
+  }
+  &__item {
+    width: 235px;
+    background-color: color.$transaction__bg;
+    border-radius: var.$border_10px;
+    padding: 8px 11px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    &-btn {
+      width: 100%;
+      border: none;
+      text-align: start;
+      display: flex;
+      align-items: center;
+      background-color: transparent;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+  &__sidebar {
+    padding: 35px;
+  }
+  &__new-transaction {
+    background-color: color.$transaction__adding-btn;
+  }
+  &__plus-icon {
+    background-color: color.$light;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 51px;
+    color: color.$transaction__adding-btn;
+    margin-right: 8px;
+  }
+  &__radio-btn {
+    position: absolute;
+    width: 150px;
+    &:last-child {
+      left: 140px;
+    }
+  }
+  &__full-width {
+    margin-top: 75px;
+    width: 100%;
+  }
+  &__categories,
+  &__description {
+    width: 100%;
+  }
+  &__new-amount {
+    position: relative;
+    width: 100%;
+  }
+
+  &__date {
+    width: 100%;
+    margin-left: 0;
+  }
+  &__right-align {
+    text-align: right;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      display: none;
+    }
+  }
+  &__file {
+    display: none;
+    &-label {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 30px;
+      height: 20px;
+      font-size: 32px;
+      border: 1px dotted color.$dark;
+      padding: 38px;
+      border-radius: var.$border_10px;
+      margin: 20px 0;
+    }
+  }
+  &__button-row {
+    position: absolute;
+    bottom: 30px;
+    right: 40px;
+  }
+  &__category-row {
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  &__details {
+    &-container {
+      z-index: 8;
+    }
+    &-title {
+      margin: 30px 0;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    &-category {
+      border: 1px solid color.$dark;
+      padding: 10px 40px;
+      border-radius: var.$border_10px;
+      margin-right: 15px;
+    }
+    &-date {
+      border-bottom: 1px solid color.$dark;
+      padding-bottom: 16px;
+      padding-top: 30px;
+    }
+    &-text {
+      font-weight: 600;
+      margin-right: 40px;
+      width: 140px;
+      display: inline-block;
+    }
+  }
+  &__btns {
+    position: absolute;
+    bottom: 15px;
+    right: 25px;
+  }
+  &__update-btn {
+    border: none;
+    background-color: transparent;
+    color: color.$transaction__edit-btn;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  &__edit-container {
+    z-index: 2;
+  }
+}
+:host ::ng-deep .mat-drawer-backdrop {
+  position: fixed !important;
+}
+:host ::ng-deep .mat-drawer-content {
+  overflow: hidden !important;
+  position: static !important;
+}
+.mat-drawer {
+  position: fixed;
+}
+.mat-drawer-container {
+  width: 100%;
+  background-color: transparent;
+  position: static !important;
+}
+
+.add-account {
+  width: 100%;
+  border: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+  }
+}
+:host :ng-deep .mat-radio-container {
+  display: none !important;
+}
+:host ::ng-deep .mat-radio-label-content {
+  display: flex !important;
+  align-items: center !important;
+  border: 2px solid color.$transaction__radio-border;
+  border-radius: 10px;
+  padding: 8px;
+  padding-right: 8px !important;
+  background-color: color.$light;
+  z-index: 2;
+  width: 100%;
+}
+.mat-radio-group {
+  position: relative;
 }
