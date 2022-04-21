@@ -2,12 +2,14 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
+const upload = require('../middleware/upload');
 const transactionController = require('../controllers/transactionController');
 // get one transaction
 router.get('/:transactionId', transactionController.transaction_details);
 // create new transaction
 router.post(
-  '/:accountId/:categoryId',
+  '/:accountId',
+  upload.single('imgLink'),
   jsonParser,
   transactionController.transaction_create
 );

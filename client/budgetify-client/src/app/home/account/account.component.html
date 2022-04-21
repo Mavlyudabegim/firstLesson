@@ -4,35 +4,41 @@
   [formGroup]="accountForm"
   #formDirective="ngForm"
 >
-  <mat-drawer-container class="account__container" hasBackdrop="true">
+  <mat-drawer-container
+    class="account__container"
+    hasBackdrop="true"
+    fixedInViewport="true"
+  >
     <mat-drawer
       #drawer
       position="end"
-      mode="push"
+      mode="over"
       class="home__new-account-sidebar"
     >
-      <p class="mat-h2">Create new account</p>
-      <p>
-        <mat-form-field class="account__full-width" appearance="outline">
-          <mat-label>Title</mat-label>
-          <input matInput required formControlName="title" />
-        </mat-form-field>
-      </p>
-      <p>
-        <mat-form-field class="account__full-width" appearance="outline">
-          <mat-label>Description</mat-label>
-          <textarea matInput formControlName="description"></textarea>
-        </mat-form-field>
-      </p>
-      <p>
-        <mat-form-field
-          ><mat-label>Currency</mat-label>
-          <mat-select [(value)]="selectedCurrency" formControlName="currency">
-            <mat-option value="$">$</mat-option>
-            <mat-option value="€">€</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </p>
+      <div class="account__input-elements">
+        <p class="mat-h2">Create new account</p>
+        <p>
+          <mat-form-field class="account__full-width" appearance="outline">
+            <mat-label>Title</mat-label>
+            <input matInput required formControlName="title" />
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="account__full-width" appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description"></textarea>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field
+            ><mat-label>Currency</mat-label>
+            <mat-select [(value)]="selectedCurrency" formControlName="currency">
+              <mat-option value="$">$</mat-option>
+              <mat-option value="€">€</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </p>
+      </div>
       <div class="home__button-row">
         <button
           mat-button

@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CreateAccountComponent } from './create-account/create-account.component';
 import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog/confirmation-dialog.component';
 import { EditConfirmationComponent } from './dialogs/edit-confirmation/edit-confirmation.component';
+import { PiggybankComponent } from './piggybank/piggybank.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { EditConfirmationComponent } from './dialogs/edit-confirmation/edit-conf
     CreateAccountComponent,
     ConfirmationDialogComponent,
     EditConfirmationComponent,
+    PiggybankComponent,
   ],
   providers: [EditConfirmationComponent, CreateAccountComponent],
   imports: [CommonModule, SharedModule, HomeRoutingModule, ReactiveFormsModule],

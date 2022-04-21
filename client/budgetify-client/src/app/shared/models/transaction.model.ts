@@ -3,6 +3,9 @@ export interface TransactionModel {
   type: string;
   description: string;
   paymentDate: string;
-  categoryId: string;
+  categories: any;
+  imgLink: any;
   transactionAmount: number;
+  accountId: string;
+  _id: string;
 }

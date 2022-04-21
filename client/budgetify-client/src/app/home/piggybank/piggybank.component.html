@@ -1,0 +1,111 @@
+<ul class="piggybank__list">
+  <li class="piggybank__new-piggybank piggybank__item">
+    <form
+      [formGroup]="piggybankForm"
+      #formDirective="ngForm"
+      (ngSubmit)="onSubmit(formDirective)"
+    >
+      <mat-drawer-container
+        hasBackdrop="true"
+        fixedInViewport="true"
+        class="transaction__piggybank"
+      >
+        <mat-drawer
+          #piggybankCreate
+          mode="over"
+          position="end"
+          class="transaction__sidebar"
+        >
+          <p class="mat-h2">Create Piggybank</p>
+          <p>
+            <mat-form-field
+              class="transaction__full-width"
+              appearance="outline"
+            >
+              <mat-label>Goal</mat-label>
+              <input matInput required formControlName="title" />
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field
+              class="transaction__full-width"
+              appearance="outline"
+            >
+              <mat-label>Description</mat-label>
+              <input matInput required formControlName="description" />
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field
+              appearance="fill"
+              floatLabel="always"
+              class="transaction__new-amount"
+            >
+              <mat-label>Goal Amount</mat-label>
+              <input
+                matInput
+                type="number"
+                class="piggybank__right-align"
+                formControlName="goalAmount"
+              />
+              <span matPrefix>{{ currency }}</span>
+            </mat-form-field>
+          </p>
+          <div class="transaction__button-row">
+            <button
+              mat-button
+              color="basic"
+              class="transaction__cancel-btn"
+              (click)="piggybankCreate.close()"
+            >
+              Cancel
+            </button>
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              (click)="piggybankCreate.close()"
+            >
+              Save
+            </button>
+          </div>
+        </mat-drawer>
+        <div class="transaction__sidenav-content">
+          <button
+            (click)="piggybankCreate.toggle()"
+            class="piggybank__item-btn"
+            type="button"
+          >
+            <span class="piggybank__pig-icon"
+              ><img src="../../../assets/piggybank.png" alt="piggybank"
+            /></span>
+            Add Piggybank
+          </button>
+        </div>
+      </mat-drawer-container>
+    </form>
+  </li>
+  <li
+    *ngFor="let piggybank of piggybanks"
+    class="piggybank__details piggybank__item"
+  >
+    <div class="piggybank__data">
+      <div class="piggybank__data-left">
+        <span class="piggybank__pig-icon"
+          ><img src="../../../assets/piggybank.png" alt="piggybank"
+        /></span>
+        <p>{{ piggybank.title }}</p>
+      </div>
+
+      <button class="piggybank__plus-btn">+</button>
+    </div>
+
+    <span
+      >{{ piggybank.availableAmount }} {{ currency }}/{{
+        piggybank.goalAmount
+      }}
+      {{ currency }}</span
+    >
+    <mat-progress-bar mode="determinate" value="20"></mat-progress-bar>
+  </li>
+</ul>

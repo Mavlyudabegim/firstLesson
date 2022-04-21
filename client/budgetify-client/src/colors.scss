@@ -13,8 +13,14 @@ $home__new-card-bg1: rgba(220, 130, 223, 0.979);
 $home__new-card-bg2: rgba(0, 198, 255, 0.38699229691876746);
 $home__new-card-box: #00000040;
 // transactions
-$transaction__bg: #eceded;
+$transaction__bg: whitesmoke;
 $transaction__income-amount: #21c206;
 $transaction__expense-amount: rgb(255, 25, 25);
+$transaction__adding-btn: #b9e2e6;
+$transaction__radio-border: #373737;
+$transaction__edit-btn: gray;
 // dialogs
 $dialog__green-snackbar: #1aa103;
+// piggybank
+$piggybank__bg: #fecee2;
+$piggybank__progress-bar: #ff76ae;

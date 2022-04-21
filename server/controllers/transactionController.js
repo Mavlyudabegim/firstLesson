@@ -11,11 +11,13 @@ async function transaction_details(req, res, next) {
 }
 async function transaction_create(req, res, next) {
   try {
+    console.log(req.file);
+
     const new_transaction = await transactionService.createTransaction(
       req.params.accountId,
-      req.params.categoryId,
       req.body
     );
+
     return res.status(201).json(new_transaction);
   } catch (error) {
     next(error);

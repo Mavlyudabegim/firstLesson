@@ -53,13 +53,23 @@
     display: flex;
     justify-content: end;
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: 35px;
+    right: 30px;
   }
   &__cancel-btn {
     margin-right: 15px;
   }
 }
-.example-full-width {
+.account-full-width {
   width: 100%;
+}
+.mat-drawer {
+  position: fixed;
+}
+.mat-drawer-container {
+  position: static;
+  height: 100%;
+}
+::ng-deep .mat-drawer-backdrop {
+  position: fixed !important;
 }
