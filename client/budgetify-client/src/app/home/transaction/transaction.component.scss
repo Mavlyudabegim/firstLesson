@@ -299,10 +299,10 @@
     z-index: 2;
   }
 }
-::ng-deep .mat-drawer-backdrop {
+:host ::ng-deep .mat-drawer-backdrop {
   position: fixed !important;
 }
-::ng-deep .mat-drawer-content {
+:host ::ng-deep .mat-drawer-content {
   overflow: hidden !important;
   position: static !important;
 }
@@ -325,10 +325,10 @@
     cursor: pointer;
   }
 }
-::ng-deep .mat-radio-container {
+:host :ng-deep .mat-radio-container {
   display: none !important;
 }
-::ng-deep .mat-radio-label-content {
+:host ::ng-deep .mat-radio-label-content {
   display: flex !important;
   align-items: center !important;
   border: 2px solid color.$transaction__radio-border;

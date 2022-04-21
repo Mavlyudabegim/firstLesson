@@ -1,13 +1,13 @@
 @use "src/colors" as color;
 @use "src/variables" as var;
-::ng-deep .mat-drawer-backdrop {
+:host ::ng-deep .mat-drawer-backdrop {
   position: fixed !important;
 }
-::ng-deep .mat-drawer-content {
+:host ::ng-deep .mat-drawer-content {
   overflow: hidden !important;
   position: static !important;
 }
-::ng-deep .mat-progress-bar-fill::after {
+:host ::ng-deep .mat-progress-bar-fill::after {
   background-color: color.$piggybank__progress-bar !important;
 }
 .mat-drawer {

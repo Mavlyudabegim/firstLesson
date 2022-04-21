@@ -1,4 +1,4 @@
 @use "src/colors" as color;
-::ng-deep .green-snackbar {
+:host ::ng-deep .green-snackbar {
   background: color.$dialog__green-snackbar;
 }

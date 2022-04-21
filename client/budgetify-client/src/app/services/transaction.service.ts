@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, tap } from 'rxjs';
 import { TransactionModel } from '../shared/models/transaction.model';
-
+const transaction_url = `http://localhost:3000/api/transactions`;
 @Injectable({
   providedIn: 'root',
 })
@@ -16,9 +16,7 @@ export class TransactionService {
   }
   public getTransactions(accountId: string): Observable<any> {
     return this.httpClient
-      .get(
-        `http://localhost:3000/api/transactions/${accountId}/account-transactions`
-      )
+      .get(`${transaction_url}/${accountId}/account-transactions`)
       .pipe(
         tap({
           next: (res: any) => {
@@ -28,30 +26,24 @@ export class TransactionService {
       );
   }
   public getOneTransaction(transactionId: string): Observable<any> {
-    return this.httpClient
-      .get(`http://localhost:3000/api/transactions/${transactionId}`)
-      .pipe(
-        tap({
-          next: (res: any) => {
-            this.transaction = res;
-          },
-        })
-      );
+    return this.httpClient.get(`${transaction_url}/${transactionId}`).pipe(
+      tap({
+        next: (res: any) => {
+          this.transaction = res;
+        },
+      })
+    );
   }
   public postTransaction(
     accountId: string,
     transaction: TransactionModel
   ): Observable<any> {
     return this.httpClient
-      .post(
-        `http://localhost:3000/api/transactions/${accountId}`,
-        transaction,
-        {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-          }),
-        }
-      )
+      .post(`${transaction_url}/${accountId}`, transaction, {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+      })
       .pipe(
         tap(() => {
           this.refreshNeeded$.next();
@@ -60,23 +52,18 @@ export class TransactionService {
   }
 
   public deleteTransaction(transactionId: string): Observable<any> {
-    return this.httpClient
-      .delete(`http://localhost:3000/api/transactions/${transactionId}`)
-      .pipe(
-        tap(() => {
-          this.refreshNeeded$.next();
-        })
-      );
+    return this.httpClient.delete(`${transaction_url}/${transactionId}`).pipe(
+      tap(() => {
+        this.refreshNeeded$.next();
+      })
+    );
   }
   public editTransaction(
     transactionId: string,
     newTransaction: any
   ): Observable<any> {
     return this.httpClient
-      .put(
-        `http://localhost:3000/api/transactions/${transactionId}`,
-        newTransaction
-      )
+      .put(`${transaction_url}/${transactionId}`, newTransaction)
       .pipe(
         tap(() => {
           this.refreshNeeded$.next();
